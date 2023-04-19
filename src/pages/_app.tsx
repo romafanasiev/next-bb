@@ -1,9 +1,9 @@
-import type { AppProps } from 'next/app';
-
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
 
 import { initAuth } from 'utils';
+
+import type { AppProps } from 'next/app';
 
 import 'styles/globals.css';
 
