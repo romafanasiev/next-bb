@@ -1,13 +1,23 @@
-import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
+import React, { useState } from 'react';
+import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
+
+import { initAuth } from 'utils';
+
+import 'styles/globals.css';
+
+initAuth();
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
-    <SessionProvider session={pageProps.session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <Component {...pageProps} />
+      </Hydrate>
+    </QueryClientProvider>
   );
 };
 
 export default App;
-

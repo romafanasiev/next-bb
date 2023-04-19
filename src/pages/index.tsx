@@ -1,25 +1,42 @@
-import { signInWithPopup } from 'firebase/auth';
-import { signIn, useSession, signOut } from 'next-auth/react';
+import {
+  useAuthSignInWithEmailAndPassword,
+  useAuthSignInWithPopup,
+  useAuthSignOut,
+} from '@react-query-firebase/auth';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
+
 import { firebaseAuth, googleProvider } from 'utils';
 
-export default function Home() {
-  const { data, update } = useSession();
+const Home = () => {
   const { register, handleSubmit } = useForm();
+  const router = useRouter();
+  const mutation = useAuthSignInWithEmailAndPassword(firebaseAuth, {
+    onError() {
+      toast.error('Could not sign you in!');
+    },
+    onSuccess() {
+      router.push('/users');
+    },
+  });
 
-  console.log(data);
+  const mutationWithGoogle = useAuthSignInWithPopup(firebaseAuth, {
+    onSuccess() {
+      router.push('/users');
+    },
+  });
 
-  const onSubmit = async (data: any) => {
-    await signIn('credentials', {
-      redirect: false,
-      email: data.email,
-      password: data.password,
-    });
+  const signOut = useAuthSignOut(firebaseAuth);
+
+  const onSubmit = (data: any) => {
+    mutation.mutate(data);
   };
 
-  const onSubmitGoogle = async () => {
-    const res = await signInWithPopup(firebaseAuth, googleProvider);
-    update({ user: res.user });
+  const onSubmitGoogle = () => {
+    mutationWithGoogle.mutate({
+      provider: googleProvider,
+    });
   };
 
   return (
@@ -31,9 +48,12 @@ export default function Home() {
         <button type="button" onClick={onSubmitGoogle}>
           google
         </button>
-        <button onClick={() => signOut()}>signOut</button>
+        <button type="button" onClick={() => signOut.mutate()}>
+          signout
+        </button>
       </form>
     </main>
   );
-}
+};
 
+export default Home;
