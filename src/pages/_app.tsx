@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
 
