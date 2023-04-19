@@ -6,10 +6,13 @@ import {
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import { useAuthUser, withAuthUser } from 'next-firebase-auth';
 
 import { firebaseAuth, googleProvider } from 'utils';
+import { MainLayout } from 'layouts';
 
 const Home = () => {
+  const user = useAuthUser();
   const { register, handleSubmit } = useForm();
   const router = useRouter();
   const mutation = useAuthSignInWithEmailAndPassword(firebaseAuth, {
@@ -40,20 +43,22 @@ const Home = () => {
   };
 
   return (
-    <main className="bg-slate-700 p-10">
-      <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
-        <input type="email" {...register('email')} />
-        <input type="password" {...register('password')} />
-        <button type="submit">login</button>
-        <button type="button" onClick={onSubmitGoogle}>
-          google
-        </button>
-        <button type="button" onClick={() => signOut.mutate()}>
-          signout
-        </button>
-      </form>
-    </main>
+    <MainLayout user={user}>
+      <div className="bg-slate-400 p-10">
+        <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+          <input type="email" {...register('email')} />
+          <input type="password" {...register('password')} />
+          <button type="submit">login</button>
+          <button type="button" onClick={onSubmitGoogle}>
+            google
+          </button>
+          <button type="button" onClick={() => signOut.mutate()}>
+            signout
+          </button>
+        </form>
+      </div>
+    </MainLayout>
   );
 };
 
-export default Home;
+export default withAuthUser()(Home);

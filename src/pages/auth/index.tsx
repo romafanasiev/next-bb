@@ -1,8 +1,14 @@
-const LoginPage = () => (
-    <main className="bg-slate-700 p-10">
-      <p>login</p>
-    </main>
+import { AuthForm } from 'components';
+import { MainLayout } from 'layouts';
+
+const LoginPage = () => {
+  const onSubmit = () => console.log('x');
+
+  return (
+    <MainLayout user={undefined}>
+      <AuthForm onSubmit={onSubmit} />
+    </MainLayout>
   );
+};
 
 export default LoginPage;
-
