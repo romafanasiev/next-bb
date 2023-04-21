@@ -1,6 +1,6 @@
-
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
+import { Toaster } from 'react-hot-toast';
 
 import { initAuth } from 'utils';
 
@@ -18,6 +18,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Hydrate state={pageProps.dehydratedState}>
         <Component {...pageProps} />
       </Hydrate>
+      <Toaster position="bottom-center" />
     </QueryClientProvider>
   );
 };

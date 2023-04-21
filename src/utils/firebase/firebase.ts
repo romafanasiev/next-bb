@@ -4,6 +4,8 @@ import { init } from 'next-firebase-auth';
 import { getFirestore } from 'firebase/firestore';
 import { getFunctions } from 'firebase/functions';
 
+import { routes } from '@constants';
+
 import type { FirebaseOptions } from 'firebase/app';
 
 export const firebaseClientInitConfig = {
@@ -18,16 +20,10 @@ export const firebaseClientInitConfig = {
 
 export const initAuth = () => {
   init({
-    authPageURL: '/auth',
-    appPageURL: '/',
+    authPageURL: routes.auth,
+    appPageURL: routes.root,
     loginAPIEndpoint: '/api/login',
     logoutAPIEndpoint: '/api/logout',
-    onLoginRequestError: (err) => {
-      console.error(err);
-    },
-    onLogoutRequestError: (err) => {
-      console.error(err);
-    },
     firebaseAdminInitConfig: {
       credential: {
         projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ?? '',
@@ -50,12 +46,6 @@ export const initAuth = () => {
       sameSite: 'strict',
       secure: process.env.NEXT_PUBLIC_COOKIE_SECURE,
       signed: true,
-    },
-    onVerifyTokenError: (err) => {
-      console.error(err);
-    },
-    onTokenRefreshError: (err) => {
-      console.error(err);
     },
   });
 };

@@ -4,9 +4,9 @@ import { Footer } from 'components';
 import type { PropsWithChildren } from 'react';
 
 export const MainLayout = (props: PropsWithChildren) => (
-  <div className="flex h-screen w-screen flex-col justify-between">
+  <div className="flex h-screen w-screen flex-col justify-between bg-additional">
     <NavBar />
-    <main className="flex h-full justify-center bg-additional">
+    <main className="m-auto flex h-full w-full max-w-[345px] flex-col justify-center text-center">
       {props.children}
     </main>
     <Footer />
