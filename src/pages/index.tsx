@@ -6,13 +6,12 @@ import {
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
-import { useAuthUser, withAuthUser } from 'next-firebase-auth';
+import { withAuthUser } from 'next-firebase-auth';
 
 import { firebaseAuth, googleProvider } from 'utils';
 import { MainLayout } from 'layouts';
 
 const Home = () => {
-  const user = useAuthUser();
   const { register, handleSubmit } = useForm();
   const router = useRouter();
   const mutation = useAuthSignInWithEmailAndPassword(firebaseAuth, {
@@ -23,6 +22,20 @@ const Home = () => {
       router.push('/users');
     },
   });
+
+  // const usersCollection = collection(
+  //   firestore,
+  //   `users/${user ? user.uid : 'null'}/avatars`,
+  // );
+  // const mutation = useFirestoreCollectionMutation(usersCollection, {
+  //   onError: () => {
+  //     toast.error(errorMessages.connectionErr);
+  //   },
+  //   onSuccess: () => {
+  //     toast.success(messages.updated);
+  //     queryClient.clear();
+  //   },
+  // });
 
   const mutationWithGoogle = useAuthSignInWithPopup(firebaseAuth, {
     onSuccess() {
@@ -43,7 +56,7 @@ const Home = () => {
   };
 
   return (
-    <MainLayout user={user}>
+    <MainLayout>
       <div className="bg-slate-400 p-10">
         <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
           <input type="email" {...register('email')} />

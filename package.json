@@ -15,6 +15,8 @@
     "@react-query-firebase/auth": "^1.0.0-dev.2",
     "@react-query-firebase/firestore": "^1.0.0-dev.7",
     "firebase": "^9.19.1",
+    "firebase-admin": "^11.7.0",
+    "firebase-functions": "^4.3.1",
     "next": "13.3.0",
     "next-firebase-auth": "^1.0.0-canary.19",
     "react": "^18.2.0",

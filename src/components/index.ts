@@ -1,4 +1,4 @@
-export * from './navBar';
+export * from '../modules/navBar';
 export * from './footer';
 export * from './formFields';
 export * from './forms';

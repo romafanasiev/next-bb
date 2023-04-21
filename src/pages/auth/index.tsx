@@ -5,7 +5,7 @@ const LoginPage = () => {
   const onSubmit = () => console.log('x');
 
   return (
-    <MainLayout user={undefined}>
+    <MainLayout>
       <AuthForm onSubmit={onSubmit} />
     </MainLayout>
   );

@@ -1,6 +1,8 @@
 import { initializeApp, getApp } from 'firebase/app';
 import { GoogleAuthProvider, getAuth } from 'firebase/auth';
 import { init } from 'next-firebase-auth';
+import { getFirestore } from 'firebase/firestore';
+import { getFunctions } from 'firebase/functions';
 
 import type { FirebaseOptions } from 'firebase/app';
 
@@ -69,14 +71,7 @@ function createFirebaseApp(config: FirebaseOptions) {
 const firebaseApp = createFirebaseApp(firebaseClientInitConfig);
 
 export const firebaseAuth = getAuth(firebaseApp);
+export const firestore = getFirestore(firebaseApp);
+export const functions = getFunctions(firebaseApp);
+
 export const googleProvider = new GoogleAuthProvider();
-
-
-
-
-
-
-
-
-
-
