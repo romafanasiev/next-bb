@@ -3,12 +3,12 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 const Admin = () => {
-  const router = useRouter();
   const user = useAuthUser();
+  const router = useRouter();
 
   useEffect(() => {
-    if (!user.claims.admin) {
-      router.push('/');
+    if (user.id && !user.claims.admin) {
+      router.replace('/');
     }
   }, [user]);
 
@@ -18,9 +18,5 @@ const Admin = () => {
     </main>
   );
 };
-
-// export const getServerSideProps = withAuthUserSSR({
-//   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
-// })(async ({ AuthUser }) => await protectedPages(AuthUser));
 
 export default withAuthUser()(Admin);
