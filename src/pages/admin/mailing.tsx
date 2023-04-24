@@ -10,6 +10,6 @@ const Mailing = () => (
 
 export const getServerSideProps = withAuthUserSSR({
   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
-})(({ AuthUser }) => protectedPages(AuthUser));
+})(async ({ AuthUser }) => await protectedPages(AuthUser));
 
 export default withAuthUser()(Mailing);
