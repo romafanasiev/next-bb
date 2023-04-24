@@ -1,3 +1,5 @@
+import { withAuthUser } from 'next-firebase-auth';
+
 import { MainLayout } from 'layouts';
 
 const Faq = () => (
@@ -6,4 +8,4 @@ const Faq = () => (
   </MainLayout>
 );
 
-export default Faq;
+export default withAuthUser()(Faq);
