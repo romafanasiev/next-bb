@@ -35,7 +35,8 @@ export const useSignUp = () => {
       },
       onSuccess: () => {
         toast.success(messages.congratulation);
-        router.push(routes.auth);
+        router.push(routes.root);
+        // router.push(routes.auth);
       },
     },
   );

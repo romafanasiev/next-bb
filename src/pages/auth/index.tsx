@@ -1,7 +1,9 @@
 import { withAuthUser } from 'next-firebase-auth';
 import { useRouter } from 'next/router';
 import { useAuthSignInWithPopup } from '@react-query-firebase/auth';
+import Link from 'next/link';
 
+import { routes } from '@constants';
 import { AuthForm } from 'components';
 import { MainLayout } from 'layouts';
 import { useLogin } from 'hooks';
@@ -35,6 +37,7 @@ const LoginPage = () => {
     <MainLayout>
       <AuthForm onSubmit={onSubmit} buttonText="login" />
       <button onClick={onSubmitGoogle}>google</button>
+      <Link href={routes.signUp}>SignUp</Link>
     </MainLayout>
   );
 };
