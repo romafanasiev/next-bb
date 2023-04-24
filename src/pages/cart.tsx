@@ -1,3 +1,5 @@
+import { withAuthUser } from 'next-firebase-auth';
+
 import { MainLayout } from 'layouts';
 
 const Cart = () => (
@@ -6,4 +8,4 @@ const Cart = () => (
   </MainLayout>
 );
 
-export default Cart;
+export default withAuthUser()(Cart);
