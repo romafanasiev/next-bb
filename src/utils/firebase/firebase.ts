@@ -8,6 +8,8 @@ import { routes } from '@constants';
 
 import type { FirebaseOptions } from 'firebase/app';
 
+const { default: { root, auth } } = routes;
+
 export const firebaseClientInitConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? '',
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN ?? '',
@@ -20,8 +22,8 @@ export const firebaseClientInitConfig = {
 
 export const initAuth = () => {
   init({
-    authPageURL: routes.auth,
-    appPageURL: routes.root,
+    authPageURL: auth,
+    appPageURL: root,
     loginAPIEndpoint: '/api/login',
     logoutAPIEndpoint: '/api/logout',
     firebaseAdminInitConfig: {

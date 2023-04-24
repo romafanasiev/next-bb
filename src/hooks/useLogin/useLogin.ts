@@ -13,7 +13,7 @@ export const useLogin = () => {
   const login = useAuthSignInWithEmailAndPassword(firebaseAuth, {
     onSuccess: () => {
       toast.success(messages.congratulation);
-      router.push(routes.root);
+      router.push(routes.default.root);
     },
     onError: (error) => {
       switch (error.code) {

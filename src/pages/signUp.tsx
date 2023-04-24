@@ -21,7 +21,7 @@ const SignUp = () => {
   return (
     <MainLayout>
       <AuthForm onSubmit={onSubmit} />
-      <Link href={routes.auth}>Login</Link>
+      <Link href={routes.default.auth}>Login</Link>
     </MainLayout>
   );
 };

@@ -11,12 +11,17 @@ import { firebaseAuth, googleProvider } from 'utils';
 
 import type { TAuthForm } from 'types';
 
+const {
+  users: { root },
+  default: { signUp },
+} = routes;
+
 const LoginPage = () => {
   const login = useLogin();
   const router = useRouter();
   const mutationWithGoogle = useAuthSignInWithPopup(firebaseAuth, {
     onSuccess() {
-      router.push('/users');
+      router.push(root);
     },
   });
 
@@ -37,7 +42,7 @@ const LoginPage = () => {
     <MainLayout>
       <AuthForm onSubmit={onSubmit} buttonText="login" />
       <button onClick={onSubmitGoogle}>google</button>
-      <Link href={routes.signUp}>SignUp</Link>
+      <Link href={signUp}>SignUp</Link>
     </MainLayout>
   );
 };

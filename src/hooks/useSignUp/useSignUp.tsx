@@ -16,7 +16,7 @@ export const useSignUp = () => {
 
   const createUser = useAuthCreateUserWithEmailAndPassword(firebaseAuth);
 
-  const createAndUpdateUser = useMutation(
+  const createNewUser = useMutation(
     async (data: TAuthForm) => {
       const res = await createUser.mutateAsync({
         email: data.email,
@@ -35,11 +35,11 @@ export const useSignUp = () => {
       },
       onSuccess: () => {
         toast.success(messages.congratulation);
-        router.push(routes.root);
+        router.push(routes.default.root);
         // router.push(routes.auth);
       },
     },
   );
 
-  return createAndUpdateUser;
+  return createNewUser;
 };
