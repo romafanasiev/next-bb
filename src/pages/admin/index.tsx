@@ -1,4 +1,4 @@
-import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
+import { withAdmin } from 'hoc';
 
 const Admin = () => (
   <main className="bg-slate-700 p-10">
@@ -17,21 +17,4 @@ const Admin = () => (
 //   return { props: { data: null } };
 // });
 
-export const getServerSideProps = withAuthUserSSR({
-  whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
-  // eslint-disable-next-line require-await
-})(async ({ AuthUser }) => {
-  if (!AuthUser.claims.admin) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-      props: {},
-    };
-  }
-
-  return { props: {} };
-});
-
-export default withAuthUser()(Admin);
+export default withAdmin({})(Admin);
