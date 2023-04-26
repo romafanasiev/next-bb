@@ -7,6 +7,8 @@ import {
 } from 'next-firebase-auth';
 import { useRouter } from 'next/router';
 
+import { routes } from '@constants';
+
 interface IWithAuthUserOptions {
   whenAuthed?: AuthAction.RENDER | AuthAction.REDIRECT_TO_APP;
   whenAuthedBeforeRedirect?:
@@ -34,11 +36,11 @@ export const withAdmin =
 
         useEffect(() => {
           if (!!AuthUser.id && !AuthUser.claims.admin) {
-            router.replace('/');
+            router.replace(routes.default.root);
           }
         }, [router, AuthUser]);
 
-        if (!AuthUser) {
+        if (!AuthUser.id) {
           return <p>Loading</p>;
         }
 
