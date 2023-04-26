@@ -1,22 +1,37 @@
-import { useAuthUser, withAuthUser } from 'next-firebase-auth';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { AuthAction, withAuthUser, withAuthUserSSR } from 'next-firebase-auth';
 
-const Admin = () => {
-  const user = useAuthUser();
-  const router = useRouter();
+const Admin = () => (
+  <main className="bg-slate-700 p-10">
+    <p>Admin page</p>
+  </main>
+);
 
-  useEffect(() => {
-    if (user.id && !user.claims.admin) {
-      router.replace('/');
-    }
-  }, [user]);
+// export const getServerSideProps = withAuthUserSSR({
+//   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
+// })(({ AuthUser }) => {
 
-  return (
-    <main className="bg-slate-700 p-10">
-      <p>Admin page</p>
-    </main>
-  );
-};
+//   if (AuthUser.claims.admin) {
+//     return { props: { data: 'hello Admin' } };
+//   }
+
+//   return { props: { data: null } };
+// });
+
+export const getServerSideProps = withAuthUserSSR({
+  whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
+  // eslint-disable-next-line require-await
+})(async ({ AuthUser }) => {
+  if (!AuthUser.claims.admin) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+      props: {},
+    };
+  }
+
+  return { props: {} };
+});
 
 export default withAuthUser()(Admin);
