@@ -1,6 +1,4 @@
-import { withAuthUser, AuthAction, withAuthUserSSR } from 'next-firebase-auth';
-
-import { protectedPages } from 'helpers';
+import { withAdmin } from 'hoc';
 
 const Update = () => (
   <main className="bg-slate-700 p-10">
@@ -8,8 +6,4 @@ const Update = () => (
   </main>
 );
 
-export const getServerSideProps = withAuthUserSSR({
-  whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
-})(async ({ AuthUser }) => await protectedPages(AuthUser));
-
-export default withAuthUser()(Update);
+export default withAdmin({})(Update);

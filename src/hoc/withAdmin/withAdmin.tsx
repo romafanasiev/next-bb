@@ -1,10 +1,10 @@
+import { ComponentType, FC, useEffect } from 'react';
 import {
   AuthAction,
   PageURL,
   useAuthUser,
   withAuthUser,
 } from 'next-firebase-auth';
-import React, { ComponentType, FC, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 interface IWithAuthUserOptions {
@@ -28,21 +28,22 @@ export const withAdmin =
   // eslint-disable-next-line unused-imports/no-unused-vars
     <P extends object>(_options?: IWithAuthUserOptions) =>
     (ChildComponent: ComponentType<P>) => {
-      const WithVerifiedAuthUserHOC: FC<unknown> = (props) => {
+      const WithAdminHOC: FC<unknown> = (props) => {
         const AuthUser = useAuthUser();
         const router = useRouter();
 
         useEffect(() => {
           if (!!AuthUser.id && !AuthUser.claims.admin) {
-            router.replace('/verify');
+            router.replace('/');
           }
         }, [router, AuthUser]);
+
+        if (!AuthUser) {
+          return <p>Loading</p>;
+        }
 
         return <ChildComponent {...(props as P)} />;
       };
 
-      WithVerifiedAuthUserHOC.displayName = 'WithAuthUserHOC';
-
-      return withAuthUser()(WithVerifiedAuthUserHOC);
+      return withAuthUser()(WithAdminHOC);
     };
-

@@ -6,8 +6,4 @@ const Dashboard = () => (
   </main>
 );
 
-// export const getServerSideProps = withAuthUserSSR({
-//   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
-// })(async ({ AuthUser }) => await protectedPages(AuthUser));
-
 export default withAdmin({})(Dashboard);
