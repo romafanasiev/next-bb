@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^3.1.0",
     "@react-query-firebase/auth": "^1.0.0-dev.2",
     "@react-query-firebase/firestore": "^1.0.0-dev.7",
+    "classnames": "^2.3.2",
     "firebase": "^9.19.1",
     "firebase-admin": "^11.7.0",
     "firebase-functions": "^4.3.1",
@@ -33,6 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "autoprefixer": "10.4.14",
+    "babel-plugin-inline-react-svg": "^2.0.2",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "eslint-config-prettier": "^8.8.0",
@@ -50,6 +52,7 @@
     "stylelint-config-tailwindcss": "^0.0.7",
     "stylelint-prettier": "^3.0.0",
     "tailwindcss": "3.3.1",
+    "tailwindcss-animate": "^1.0.5",
     "typescript": "5.0.4"
   }
 }
