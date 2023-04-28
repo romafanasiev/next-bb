@@ -2,6 +2,7 @@ import { useState } from 'react';
 import classNames from 'classnames/bind';
 
 import { routes } from '@constants';
+import { classNamesContextHelper } from 'helpers';
 
 import UploadIcon from '../../assets/icons/upload.svg';
 import DashBoardIcon from '../../assets/icons/chartBar.svg';
@@ -19,42 +20,47 @@ const cxButton = classNames.bind(buttonStyles);
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   const classes = [cxSidebar, cxButton];
-  const classesContext = classes.map((className) =>
-    className({ base: true, opened: isOpen, closed: !isOpen }),
-  );
+  const contextValues = {
+    base: true,
+    opened: isOpen,
+    closed: !isOpen,
+  };
+  const classesContext = classNamesContextHelper(classes, contextValues);
 
   return (
     <aside className={classesContext[classes.indexOf(cxSidebar)]}>
       <ul className="flex w-full flex-col items-center justify-center gap-4">
         <NavItem
           linkAddress={dashboard}
-          isOpen={isOpen}
+          context={contextValues}
           icon={<DashBoardIcon />}
           description="Dashboard"
         />
 
         <NavItem
           linkAddress={mailing}
-          isOpen={isOpen}
+          context={contextValues}
           icon={<MailIcon />}
           description="Send mail"
         />
 
         <NavItem
           linkAddress={update}
-          isOpen={isOpen}
+          context={contextValues}
           icon={<NoteIcon />}
           description="All tracks"
         />
 
         <NavItem
           linkAddress={upload}
-          isOpen={isOpen}
+          context={contextValues}
           icon={<UploadIcon />}
           description="Add new track"
         />
       </ul>
+
       <button
         onClick={() => setIsOpen((prevState) => !prevState)}
         className={classesContext[classes.indexOf(cxButton)]}

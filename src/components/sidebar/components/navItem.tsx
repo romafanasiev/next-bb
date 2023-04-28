@@ -1,13 +1,17 @@
 import Link from 'next/link';
 import classNames from 'classnames/bind';
 
+import { classNamesContextHelper } from 'helpers';
+import { routes } from '@constants';
+
 import { descStyles, liStyles, linkStyles } from '../styles';
 
 import type { ReactElement } from 'react';
+import type { IContextType } from 'types';
 
 interface TNavItemProps {
-  linkAddress: string;
-  isOpen: boolean;
+  linkAddress: (typeof routes.admin)[keyof typeof routes.admin];
+  context: IContextType;
   description: string;
   icon: ReactElement;
 }
@@ -19,13 +23,11 @@ const cxDesc = classNames.bind(descStyles);
 export const NavItem = ({
   linkAddress,
   description,
-  isOpen,
+  context,
   icon,
 }: TNavItemProps) => {
   const classes = [cxLink, cxLi, cxDesc];
-  const classesContext = classes.map((className) =>
-    className({ base: true, opened: isOpen, closed: !isOpen }),
-  );
+  const classesContext = classNamesContextHelper(classes, context);
 
   return (
     <li className={classesContext[classes.indexOf(cxLi)]}>
