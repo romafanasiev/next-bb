@@ -2,7 +2,7 @@ import { useState } from 'react';
 import classNames from 'classnames/bind';
 
 import { routes } from '@constants';
-import { classNamesContextHelper } from 'helpers';
+import { classNamesContext } from 'helpers';
 
 import UploadIcon from '../../assets/icons/upload.svg';
 import DashBoardIcon from '../../assets/icons/chartBar.svg';
@@ -27,7 +27,7 @@ export const Sidebar = () => {
     opened: isOpen,
     closed: !isOpen,
   };
-  const classesContext = classNamesContextHelper(classes, contextValues);
+  const classesContext = classNamesContext(classes, contextValues);
 
   return (
     <aside className={classesContext[classes.indexOf(cxSidebar)]}>

@@ -1,16 +1,15 @@
 import Link from 'next/link';
 import classNames from 'classnames/bind';
 
-import { classNamesContextHelper } from 'helpers';
-import { routes } from '@constants';
+import { classNamesContext } from 'helpers';
 
 import { descStyles, liStyles, linkStyles } from '../styles';
 
 import type { ReactElement } from 'react';
-import type { IContextType } from 'types';
+import type { IContextType, TAdminRoutes } from 'types';
 
 interface TNavItemProps {
-  linkAddress: (typeof routes.admin)[keyof typeof routes.admin];
+  linkAddress: TAdminRoutes;
   context: IContextType;
   description: string;
   icon: ReactElement;
@@ -27,7 +26,7 @@ export const NavItem = ({
   icon,
 }: TNavItemProps) => {
   const classes = [cxLink, cxLi, cxDesc];
-  const classesContext = classNamesContextHelper(classes, context);
+  const classesContext = classNamesContext(classes, context);
 
   return (
     <li className={classesContext[classes.indexOf(cxLi)]}>

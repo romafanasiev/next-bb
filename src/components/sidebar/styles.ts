@@ -5,13 +5,13 @@ export const sideBarStyles = {
 };
 
 export const linkStyles = {
-  base: 'w-full flex capitalize pl-4',
+  base: 'w-full flex capitalize pl-4 duration-300 hover:scale-[1.05]',
   opened: '',
   closed: '',
 };
 
 export const buttonStyles = {
-  base: 'duration-300 ease-in-out',
+  base: 'duration-300 ease-in-out duration-300 hover:scale-[1.1]',
   opened: 'rotate-180',
   closed: 'rotate-0',
 };
