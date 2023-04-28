@@ -5,9 +5,9 @@ export const sideBarStyles = {
 };
 
 export const linkStyles = {
-  base: 'w-full flex items-center capitalize',
-  opened: 'justify-end',
-  closed: 'justify-center',
+  base: 'w-full flex capitalize pl-4',
+  opened: '',
+  closed: '',
 };
 
 export const buttonStyles = {
@@ -17,9 +17,9 @@ export const buttonStyles = {
 };
 
 export const descStyles = {
-  base: 'transform duration-1000 px-4',
-  opened: 'translate-x-0',
-  closed: 'translate-x-[-200px] scale-0 absolute',
+  base: 'transform duration-500 px-4 absolute',
+  opened: 'translate-x-5 scale-1',
+  closed: 'translate-x-[-200px]',
 };
 
 export const liStyles = {
