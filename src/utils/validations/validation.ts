@@ -1,4 +1,3 @@
-/* eslint-disable unused-imports/no-unused-vars */
 import { z } from 'zod';
 
 import {
@@ -9,6 +8,7 @@ import {
 } from '@constants';
 
 import type { TErrorMessages, TSupportedFiles } from 'types';
+import type { ZodType } from 'zod';
 
 const {
   email,
@@ -41,16 +41,28 @@ const { password: passRegExp, lettersAndSeparator } = regExp;
 const getFileValidation = (
   filesFormat: TSupportedFiles,
   formatErrMessage: TErrorMessages,
-) =>
-  z
-    .any()
-    .refine((files) => files.length === 1, requiredFile)
-    .refine(
-      (files) => filesFormat.includes(files?.[0]?.type),
-      formatErrMessage,
-    );
+  optional = false,
+) => {
+  if (!optional) {
+    return z
+      .any()
+      .refine((files) => files?.length === 1, requiredFile)
+      .refine(
+        (files) => filesFormat.includes(files?.[0]?.type),
+        formatErrMessage,
+      ) as ZodType<File>;
+  }
 
-const imageValidation = getFileValidation(images, thumbnailFormat);
+  return z.any().refine((files) => {
+    if (files?.length === 0) {
+      return true;
+    }
+
+    return filesFormat.includes(files?.[0]?.type);
+  }, formatErrMessage) as ZodType<undefined | File>;
+};
+
+const imageValidation = getFileValidation(images, thumbnailFormat, true);
 const audioValidation = getFileValidation(audio, audioFormat);
 
 const requiredFieldValidation = z
@@ -84,7 +96,7 @@ export const loginValidation = z.object({
 });
 
 export const uploadTrackValidation = z.object({
-  [cover]: z.optional(imageValidation),
+  [cover]: imageValidation,
   [preview]: audioValidation,
   [fullVersion]: audioValidation,
   [title]: requiredFieldValidation,
