@@ -10,13 +10,9 @@ import type { IFormProps, TUploadForm } from 'types';
 const { cover, preview, fullVersion, title, bpm, tags, price } = formFieldNames;
 
 export const UploadForm = ({onSubmit,}: Omit<IFormProps<TUploadForm>, 'validation'>) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<TUploadForm>({ resolver: zodResolver(uploadTrackValidation) });
-
-  console.log(errors);
+  const { register, handleSubmit } = useForm<TUploadForm>({
+    resolver: zodResolver(uploadTrackValidation),
+  });
 
   return (
     <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>

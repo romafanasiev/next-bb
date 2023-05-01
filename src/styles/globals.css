@@ -7,3 +7,7 @@
   --sidebar-size: 228px;
   --header-size: 64px;
 }
+
+* {
+  @apply duration-300;
+}

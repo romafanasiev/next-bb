@@ -50,7 +50,7 @@ const getFileValidation = (
       .refine(
         (files) => filesFormat.includes(files?.[0]?.type),
         formatErrMessage,
-      ) as ZodType<File>;
+      );
   }
 
   return z.any().refine((files) => {
@@ -59,11 +59,14 @@ const getFileValidation = (
     }
 
     return filesFormat.includes(files?.[0]?.type);
-  }, formatErrMessage) as ZodType<undefined | File>;
+  }, formatErrMessage);
 };
 
-const imageValidation = getFileValidation(images, thumbnailFormat, true);
-const audioValidation = getFileValidation(audio, audioFormat);
+const imageValidation = getFileValidation(
+  images,
+  thumbnailFormat,
+) as ZodType<FileList>;
+const audioValidation = getFileValidation(audio, audioFormat) as ZodType<FileList>;
 
 const requiredFieldValidation = z
   .string()
