@@ -3,12 +3,13 @@ import { GoogleAuthProvider, getAuth } from 'firebase/auth';
 import { init } from 'next-firebase-auth';
 import { getFirestore } from 'firebase/firestore';
 import { getFunctions } from 'firebase/functions';
+import { getStorage } from 'firebase/storage';
 
 import { routes } from '@constants';
 
 import type { FirebaseOptions } from 'firebase/app';
 
-const { default: { root, auth } } = routes;
+const {default: { root, auth },} = routes;
 
 export const firebaseClientInitConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? '',
@@ -64,6 +65,7 @@ const firebaseApp = createFirebaseApp(firebaseClientInitConfig);
 
 export const firebaseAuth = getAuth(firebaseApp);
 export const firestore = getFirestore(firebaseApp);
+export const storage = getStorage(firebaseApp);
 export const functions = getFunctions(firebaseApp);
 
 export const googleProvider = new GoogleAuthProvider();

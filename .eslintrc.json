@@ -99,7 +99,7 @@
     "@typescript-eslint/consistent-type-definitions": ["warn", "interface"],
     "@typescript-eslint/restrict-template-expressions": "warn",
     "object-curly-newline": [
-      "error",
+      "warn",
       {
         "ObjectExpression": { "consistent": true },
         "ObjectPattern": { "multiline": true },

@@ -1,21 +1,22 @@
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { formFieldNames } from '@constants';
 import { TextField } from 'components';
 
-import type { TAuthForm } from 'types';
-import type { SubmitHandler } from 'react-hook-form';
-
-interface AuthFormProps {
-  onSubmit: SubmitHandler<TAuthForm>;
+import type { IFormProps, TAuthForm } from 'types';
+interface IAuthFormProps extends IFormProps<TAuthForm> {
   buttonText?: string;
 }
 
 export const AuthForm = ({
   onSubmit,
+  validation,
   buttonText = 'submit',
-}: AuthFormProps) => {
-  const { register, handleSubmit } = useForm<TAuthForm>();
+}: IAuthFormProps) => {
+  const { register, handleSubmit } = useForm<TAuthForm>({
+    resolver: validation && zodResolver(validation),
+  });
 
   return (
     <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>

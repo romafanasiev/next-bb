@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --sidebar-sm-size: 90px;
+  --sidebar-size: 228px;
+  --header-size: 64px;
+}
+
+* {
+  @apply duration-300;
+}
