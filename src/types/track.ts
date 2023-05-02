@@ -9,4 +9,5 @@ export interface TTrack {
   premiumPrice: number;
   key: string;
   exclusive: boolean;
+  duration: number;
 }
