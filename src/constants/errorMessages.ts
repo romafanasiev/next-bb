@@ -14,6 +14,6 @@ export const errorMessages = {
   priceErr: 'Please use only digits and . separator',
   languageErr: 'Please use only English letters',
   unexpected: 'Unexpected error',
+  musicKey: 'Invalid music key',
+  archiveFormat: 'Invalid archive format'
 } as const;
-
-

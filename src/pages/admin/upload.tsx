@@ -35,7 +35,7 @@ const Upload = () => {
   return (
     <AdminLayout>
       <UploadForm onSubmit={onSubmit} />
-      {progress && <p>{`Please wait loading ${progress}%`}</p>}
+      {progress > 0 && <p>{`Please wait loading ${progress}%`}</p>}
     </AdminLayout>
   );
 };

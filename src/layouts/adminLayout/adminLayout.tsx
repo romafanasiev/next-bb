@@ -8,7 +8,7 @@ export const AdminLayout = (props: PropsWithChildren) => (
     <NavBar />
     <div className="relative flex grow">
       <Sidebar />
-      <main className="flex w-full items-center justify-center">
+      <main className="flex w-full flex-col items-center justify-center gap-4">
         {props.children}
       </main>
     </div>

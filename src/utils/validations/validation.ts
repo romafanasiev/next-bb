@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { z } from 'zod';
 
 import {
@@ -5,6 +6,7 @@ import {
   formFieldNames,
   regExp,
   supportedFileTypes,
+  musicKeys,
 } from '@constants';
 
 import type { TErrorMessages, TSupportedFiles } from 'types';
@@ -20,6 +22,8 @@ const {
   price,
   preview,
   fullVersion,
+  key,
+  exclusiveVersion,
 } = formFieldNames;
 
 const {
@@ -32,9 +36,11 @@ const {
   thumbnailFormat,
   priceErr,
   tagsErr,
+  musicKey,
+  archiveFormat,
 } = errorMessages;
 
-const { images, audio } = supportedFileTypes;
+const { images, audio, archive } = supportedFileTypes;
 
 const { password: passRegExp, lettersAndSeparator } = regExp;
 
@@ -66,7 +72,20 @@ const imageValidation = getFileValidation(
   images,
   thumbnailFormat,
 ) as ZodType<FileList>;
-const audioValidation = getFileValidation(audio, audioFormat) as ZodType<FileList>;
+
+const audioValidation = getFileValidation(
+  audio,
+  audioFormat,
+) as ZodType<FileList>;
+
+const archiveValidation = getFileValidation(
+  archive,
+  archiveFormat,
+) as ZodType<FileList>;
+
+const keyValidation = z
+  .string()
+  .refine((string) => musicKeys.includes(string), { message: musicKey });
 
 const requiredFieldValidation = z
   .string()
@@ -106,4 +125,6 @@ export const uploadTrackValidation = z.object({
   [bpm]: numberValidation,
   [tags]: tagsValidation,
   [price]: numberValidation,
+  [key]: keyValidation,
+  [exclusiveVersion]: archiveValidation,
 });
