@@ -7,7 +7,7 @@ import { routes } from '@constants';
 import { AuthForm } from 'components';
 import { MainLayout } from 'layouts';
 import { useLogin } from 'hooks';
-import { firebaseAuth, googleProvider } from 'utils';
+import { firebaseAuth, googleProvider, loginValidation } from 'utils';
 
 import type { TAuthForm } from 'types';
 
@@ -40,7 +40,11 @@ const LoginPage = () => {
 
   return (
     <MainLayout>
-      <AuthForm onSubmit={onSubmit} buttonText="login" />
+      <AuthForm
+        onSubmit={onSubmit}
+        buttonText="login"
+        validation={loginValidation}
+      />
       <button onClick={onSubmitGoogle}>google</button>
       <Link href={signUp}>SignUp</Link>
     </MainLayout>

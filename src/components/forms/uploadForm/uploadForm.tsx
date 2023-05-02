@@ -14,7 +14,8 @@ const {
   title,
   bpm,
   tags,
-  price,
+  standardPrice,
+  premiumPrice,
   key,
   exclusiveVersion,
 } = formFieldNames;
@@ -54,7 +55,8 @@ export const UploadForm = ({onSubmit,}: Omit<IFormProps<TUploadForm>, 'validatio
       <TextField register={register} name={key} placeholder="Music Key" />
       <TextField register={register} name={bpm} placeholder="Bpm" />
       <TextField register={register} name={tags} placeholder="Tags" />
-      <TextField register={register} name={price} placeholder="Price" />
+      <TextField register={register} name={standardPrice} placeholder="Standard price" />
+      <TextField register={register} name={premiumPrice} placeholder="Premium price" />
 
       <button type="submit">upload track</button>
     </form>

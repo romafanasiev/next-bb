@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { licenseTypes } from '@constants';
 import { storage } from 'utils';
 
-import type { TUploadForm } from 'types';
+import type { TTrack, TUploadForm } from 'types';
 
 export const uploadTrack = async (
   data: TUploadForm,
@@ -19,7 +19,8 @@ export const uploadTrack = async (
     title,
     tags,
     bpm,
-    price,
+    standardPrice,
+    premiumPrice,
     key,
     exclusiveVersion,
   } = data;
@@ -84,7 +85,9 @@ export const uploadTrack = async (
     title: title.toLowerCase(),
     tags: tags.toLowerCase(),
     bpm,
-    price,
+    standardPrice,
+    premiumPrice,
     key,
-  };
+    exclusive: false,
+  } as TTrack;
 };
