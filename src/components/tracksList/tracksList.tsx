@@ -5,7 +5,13 @@ import type { TTrack } from 'types';
 const cellPaddings = 'px-6 py-3';
 const cellStyles = `${cellPaddings} hidden md:table-cell`;
 
-export const TracksList = ({ tracks }: { tracks?: TTrack[] }) => (
+export const TracksList = ({
+  tracks,
+  onClick,
+}: {
+  tracks?: TTrack[];
+  onClick?: (track: TTrack) => void;
+}) => (
   <div className="rounded-3xl bg-primary py-4 text-white">
     <table className="w-full text-left text-sm ">
       <thead className="border-b border-b-white text-xs uppercase">
@@ -34,7 +40,9 @@ export const TracksList = ({ tracks }: { tracks?: TTrack[] }) => (
       </thead>
       <tbody>
         {tracks &&
-          tracks.map((track) => <TrackCard key={track.id} track={track} />)}
+          tracks.map((track) => (
+            <TrackCard key={track.id} track={track} onClick={onClick} />
+          ))}
       </tbody>
     </table>
   </div>

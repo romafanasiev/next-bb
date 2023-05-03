@@ -5,6 +5,7 @@ import { useFirestoreQueryData } from '@react-query-firebase/firestore';
 import { MainLayout } from 'layouts';
 import { firestore } from 'utils';
 import { TracksList } from 'components';
+import { useTrack } from 'hooks';
 
 import type { CollectionReference } from 'firebase/firestore';
 import type { TTrack } from 'types';
@@ -16,6 +17,8 @@ const Home = () => {
     limit(20),
   );
 
+  const { setNewTrack } = useTrack();
+
   const tracks = useFirestoreQueryData<TTrack>(
     'tracks',
     ref as CollectionReference<TTrack>,
@@ -25,9 +28,11 @@ const Home = () => {
     return <p>Loading</p>;
   }
 
+  const handleClick = (track: TTrack) => setNewTrack(track);
+
   return (
     <MainLayout>
-      <TracksList tracks={tracks.data} />
+      <TracksList tracks={tracks.data} onClick={handleClick} />
     </MainLayout>
   );
 };
