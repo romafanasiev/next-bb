@@ -25,7 +25,7 @@ export const TrackCard = ({
       }}
     >
       <td className="w-[64px] rounded-sm pl-[20px]">
-        <TrackCover coverUrl={coverUrl} title={title} />
+        <TrackCover coverUrl={coverUrl} title={title} rounded />
       </td>
       <th scope="row" className={`${cellPaddings.split(' ')[0]} capitalize`}>
         {title}

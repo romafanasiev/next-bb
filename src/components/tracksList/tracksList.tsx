@@ -16,10 +16,7 @@ export const TracksList = ({
     <table className="w-full text-left text-sm ">
       <thead className="border-b border-b-white text-xs uppercase">
         <tr>
-          <th
-            scope="col"
-            className={`w-[--cover-size] ${cellPaddings.split(' ')[1]}`}
-          />
+          <th scope="col" className={`${cellPaddings.split(' ')[1]}`} />
           <th scope="col" className={cellStyles}>
             Title
           </th>
