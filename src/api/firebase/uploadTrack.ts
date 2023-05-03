@@ -3,14 +3,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { licenseTypes } from '@constants';
 import { storage } from 'utils';
+import { getAudioDuration } from 'helpers';
 
-import type { TUploadForm } from 'types';
+import type { TTrack, TUploadForm } from 'types';
 
 export const uploadTrack = async (
   data: TUploadForm,
   progressFunc?: (progress: number) => void,
   errorFunc?: (message: string) => void,
-) => {
+): Promise<TTrack> => {
   const uuid = uuidv4();
   const {
     cover,
@@ -19,11 +20,13 @@ export const uploadTrack = async (
     title,
     tags,
     bpm,
-    price,
+    standardPrice,
+    premiumPrice,
     key,
     exclusiveVersion,
   } = data;
   const files = [cover[0], preview[0], fullVersion[0], exclusiveVersion[0]];
+  const duration = await getAudioDuration(fullVersion[0]);
   const totalFilesSize = files.reduce((acc, file) => acc + file.size, 0);
   let uploadedBytesSize = 0;
   const promises = [];
@@ -68,14 +71,16 @@ export const uploadTrack = async (
 
     if (i < 2) {
       promises.push(
-        uploadTask.then((uploadResult) => getDownloadURL(uploadResult.ref)),
+        uploadTask.then((uploadResult) =>
+          getDownloadURL(uploadResult.ref),
+        ) as Promise<string>,
       );
     } else {
-      promises.push(uploadTask.then((uploadResult) => uploadResult));
+      promises.push(uploadTask.then(() => 'success') as Promise<string>);
     }
   }
 
-  const track = await Promise.all(promises);
+  const track = await Promise.all(promises).then((res) => [res[0], res[1]]);
 
   return {
     id: uuid,
@@ -84,7 +89,10 @@ export const uploadTrack = async (
     title: title.toLowerCase(),
     tags: tags.toLowerCase(),
     bpm,
-    price,
+    standardPrice,
+    premiumPrice,
     key,
+    exclusive: false,
+    duration,
   };
 };

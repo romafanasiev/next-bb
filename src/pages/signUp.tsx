@@ -5,7 +5,7 @@ import { MainLayout } from 'layouts';
 import { AuthForm } from 'components';
 import { useSignUp } from 'hooks';
 import { routes } from '@constants';
-import { loginValidation } from 'utils';
+import { signUpValidation } from 'utils';
 
 import type { TAuthForm } from 'types';
 
@@ -21,7 +21,7 @@ const SignUp = () => {
 
   return (
     <MainLayout>
-      <AuthForm onSubmit={onSubmit} validation={loginValidation} />
+      <AuthForm onSubmit={onSubmit} validation={signUpValidation} />
       <Link href={routes.default.auth}>Login</Link>
     </MainLayout>
   );
