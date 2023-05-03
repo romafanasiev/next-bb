@@ -6,3 +6,4 @@ export * from './sidebar';
 export * from './tracksList';
 export * from './trackCard';
 export * from './trackCover';
+export * from './badge';

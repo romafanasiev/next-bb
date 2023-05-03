@@ -7,7 +7,7 @@ export const TrackCover = ({
   coverUrl,
 }: Pick<TTrack, 'title' | 'coverUrl'>) => (
   <Image
-    className="h-[--track-height] rounded-lg object-cover"
+    className="h-[--cover-size] rounded-lg object-cover"
     src={coverUrl}
     alt={`${title} track cover`}
     width={44}
