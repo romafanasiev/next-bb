@@ -8,3 +8,4 @@ export * from './trackCover';
 export * from './badge';
 export * from './portal';
 export * from './player';
+export * from './waveForm';

@@ -6,7 +6,7 @@ import { MainLayout } from 'layouts';
 import { firestore } from 'utils';
 import { TracksList } from 'components';
 import { useTrack } from 'hooks';
-import { Player } from 'components/player/player';
+import { WaveFormPlayer } from 'modules';
 
 import type { CollectionReference } from 'firebase/firestore';
 import type { TTrack } from 'types';
@@ -33,8 +33,8 @@ const Home = () => {
 
   return (
     <MainLayout>
+      <WaveFormPlayer />
       <TracksList tracks={tracks.data} onClick={handleClick} />
-      <Player />
     </MainLayout>
   );
 };
