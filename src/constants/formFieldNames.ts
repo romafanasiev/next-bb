@@ -6,7 +6,10 @@ export const formFieldNames = {
   title: 'title',
   bpm: 'bpm',
   tags: 'tags',
-  price: 'price',
+  standardPrice: 'standardPrice',
+  premiumPrice: 'premiumPrice',
   preview: 'preview',
   fullVersion: 'fullVersion',
+  exclusiveVersion: 'exclusiveVersion',
+  key: 'key',
 } as const;

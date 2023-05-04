@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAuthUser } from 'next-firebase-auth';
 import { useAuthSignOut } from '@react-query-firebase/auth';
 
@@ -13,21 +14,21 @@ const {
 
 export const NavBar = () => {
   const user = useAuthUser();
+  const router = useRouter();
   const signOut = useAuthSignOut(firebaseAuth);
 
   return (
-    <nav className="flex h-16 items-center justify-between bg-primary px-2 text-white sm:px-6 lg:px-8">
+    <nav className="flex h-[--header-size] items-center justify-between bg-primary px-2 text-white sm:px-6 lg:px-8">
       <p>Logo</p>
 
       <ul className="flex gap-4">
-
         {user.id && !user.claims.admin && (
           <li>
             <Link href={root}>Library</Link>
           </li>
         )}
 
-        {user.claims.admin && (
+        {user.claims.admin && !router.pathname.includes(adminRoot) && (
           <li>
             <Link href={adminRoot}>Admin Page</Link>
           </li>

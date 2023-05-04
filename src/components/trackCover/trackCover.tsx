@@ -1,0 +1,30 @@
+import Image from 'next/image';
+import classNames from 'classnames';
+
+import type { TTrack } from 'types';
+
+type TTrackCoverProps = Pick<TTrack, 'title' | 'coverUrl'> & {
+  size?: number;
+  rounded?: boolean;
+};
+
+export const TrackCover = ({
+  title,
+  coverUrl,
+  size = 44,
+  rounded = false,
+}: TTrackCoverProps) => {
+  const styles = classNames(`h-[${size}px] w-[${size}px] object-cover`, {
+    'rounded-lg': rounded,
+  });
+
+  return (
+    <Image
+      className={styles}
+      src={coverUrl}
+      alt={`${title} track cover`}
+      width={size}
+      height={size}
+    />
+  );
+};

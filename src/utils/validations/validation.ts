@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable max-lines */
 import { z } from 'zod';
 
 import {
@@ -6,19 +6,25 @@ import {
   formFieldNames,
   regExp,
   supportedFileTypes,
+  musicKeys,
 } from '@constants';
+
+import type { TErrorMessages, TSupportedFiles } from 'types';
+import type { ZodType } from 'zod';
 
 const {
   email,
-  nickname,
   password,
   cover,
   title,
   bpm,
   tags,
-  price,
+  standardPrice,
+  premiumPrice,
   preview,
   fullVersion,
+  key,
+  exclusiveVersion,
 } = formFieldNames;
 
 const {
@@ -31,38 +37,56 @@ const {
   thumbnailFormat,
   priceErr,
   tagsErr,
-  languageErr,
+  musicKey,
+  archiveFormat,
 } = errorMessages;
 
-const { images, audio } = supportedFileTypes;
+const { images, audio, archive } = supportedFileTypes;
 
-const {
-  onlyEnglishLetters,
-  password: passRegExp,
-  lettersAndSeparator,
-} = regExp;
+const { password: passRegExp, lettersAndSeparator } = regExp;
 
-const getFileValidation = (fileTypes: Array<string>, message: string) => {
-  if (typeof window === 'object') {
+const getFileValidation = (
+  filesFormat: TSupportedFiles,
+  formatErrMessage: TErrorMessages,
+  optional = false,
+) => {
+  if (!optional) {
     return z
-      .instanceof(File, { message: requiredFile })
-      .refine((file) => fileTypes.includes(file.type), message);
+      .any()
+      .refine((files) => files?.length === 1, requiredFile)
+      .refine(
+        (files) => filesFormat.includes(files?.[0]?.type),
+        formatErrMessage,
+      );
   }
 
-  return null;
+  return z.any().refine((files) => {
+    if (files?.length === 0) {
+      return true;
+    }
+
+    return filesFormat.includes(files?.[0]?.type);
+  }, formatErrMessage);
 };
 
-// const imageValidation = z
-//   .instanceof(File, { message: requiredFile })
-//   .refine((file) => images.includes(file.type), thumbnailFormat);
+const imageValidation = getFileValidation(
+  images,
+  thumbnailFormat,
+) as ZodType<FileList>;
 
-// const audioValidation = z
-//   .instanceof(File, { message: requiredFile })
-//   .refine((file) => audio.includes(file.type), audioFormat);
+const audioValidation = getFileValidation(
+  audio,
+  audioFormat,
+) as ZodType<FileList>;
 
-const imageValidation = getFileValidation(images, thumbnailFormat);
+const archiveValidation = getFileValidation(
+  archive,
+  archiveFormat,
+) as ZodType<FileList>;
 
-const audioValidation = getFileValidation(audio, audioFormat);
+const keyValidation = z
+  .string()
+  .refine((string) => musicKeys.includes(string), { message: musicKey });
 
 const requiredFieldValidation = z
   .string()
@@ -71,17 +95,12 @@ const requiredFieldValidation = z
 
 const emailValidation = requiredFieldValidation.email({ message: emailFormat });
 
-const nicknameValidation = requiredFieldValidation
-  .min(2, { message: 'Please enter minimum 2 symbols' })
-  .max(32, maximumLength)
-  .regex(onlyEnglishLetters, { message: languageErr });
-
 const passwordValidation = requiredFieldValidation
   .min(8, { message: 'Please enter minimum 8 symbols' })
   .max(32, { message: maximumLength })
   .regex(passRegExp, { message: passErr });
 
-const priceValidation = z.coerce
+const numberValidation = z.coerce
   .number({ invalid_type_error: priceErr })
   .min(1, { message: 'Minimal value is 1' });
 
@@ -91,7 +110,6 @@ const tagsValidation = requiredFieldValidation.regex(lettersAndSeparator, {
 
 export const signUpValidation = z.object({
   [email]: emailValidation,
-  [nickname]: nicknameValidation,
   [password]: passwordValidation,
 });
 
@@ -100,12 +118,15 @@ export const loginValidation = z.object({
   [password]: requiredFieldValidation,
 });
 
-// export const uploadTrackValidation = z.object({
-//   [cover]: z.optional(imageValidation),
-//   [preview]: audioValidation,
-//   [fullVersion]: audioValidation,
-//   [title]: requiredFieldValidation,
-//   [bpm]: requiredFieldValidation,
-//   [tags]: tagsValidation,
-//   [price]: priceValidation,
-// });
+export const uploadTrackValidation = z.object({
+  [cover]: imageValidation,
+  [preview]: audioValidation,
+  [fullVersion]: audioValidation,
+  [title]: requiredFieldValidation,
+  [bpm]: numberValidation,
+  [tags]: tagsValidation,
+  [standardPrice]: numberValidation,
+  [premiumPrice]: numberValidation,
+  [key]: keyValidation,
+  [exclusiveVersion]: archiveValidation,
+});

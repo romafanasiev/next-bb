@@ -1,9 +1,10 @@
 import { withAdmin } from 'hoc';
+import { AdminLayout } from 'layouts';
 
 const Update = () => (
-  <main className="bg-slate-700 p-10">
+  <AdminLayout>
     <p>Update</p>
-  </main>
+  </AdminLayout>
 );
 
 export default withAdmin({})(Update);
