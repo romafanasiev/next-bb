@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
 import { Toaster } from 'react-hot-toast';
 
+import { TrackProvider } from 'context';
 import { initAuth } from 'utils';
 
 import type { AppProps } from 'next/app';
@@ -16,7 +17,9 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Component {...pageProps} />
+        <TrackProvider>
+          <Component {...pageProps} />
+        </TrackProvider>
       </Hydrate>
       <Toaster position="bottom-center" />
     </QueryClientProvider>
