@@ -5,7 +5,7 @@ import type { TTrack } from 'types';
 
 interface TTrackContext {
   track: TTrack | null;
-  setNewTrack: (track: TTrack| null) => void;
+  setNewTrack: (track: TTrack | null) => void;
 }
 
 const inititalState = {
@@ -19,7 +19,11 @@ export const TrackProvider = ({ children }: PropsWithChildren) => {
   const [track, setTrack] = useState<TTrackContext['track']>(null);
 
   const setNewTrack = (track: TTrack | null) => {
-    setTrack(track);
+    if (track) {
+      setTrack({ ...track });
+    } else {
+      setTrack(null);
+    }
   };
 
   return (

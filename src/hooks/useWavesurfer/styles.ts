@@ -12,5 +12,6 @@ export const containerProps = (container: TContainersIds) => {
     skipLength: 10,
     height: 90,
     cursorColor: 'transparent',
+    reflection: true,
   };
 };
