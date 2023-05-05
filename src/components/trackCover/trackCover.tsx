@@ -14,7 +14,7 @@ export const TrackCover = ({
   size = 44,
   rounded = false,
 }: TTrackCoverProps) => {
-  const styles = classNames(`h-[${size}px] w-[${size}px] object-cover`, {
+  const styles = classNames(`object-cover w-[${size}px] h-[${size}px]`, {
     'rounded-lg': rounded,
   });
 
