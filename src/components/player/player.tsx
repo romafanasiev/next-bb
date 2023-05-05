@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 
 import { Portal, TrackCover } from 'components';
+import { useMatchMedia } from 'hooks';
 
 import CloseIcon from '../../assets/icons/close.svg';
 
@@ -23,6 +24,7 @@ export const Player = ({
   onPlay,
   isOpen,
 }: TPlayerProps) => {
+  const { isMobile } = useMatchMedia();
   const styles = classNames(
     'fixed bottom-0 flex h-[--eq-sm-size] w-full items-center justify-between bg-primary text-white sm:h-[--eq-size]',
     {
@@ -35,7 +37,11 @@ export const Player = ({
     <Portal wrapperId={containerId}>
       <div className={styles}>
         <div className="flex items-center gap-4 capitalize">
-          <TrackCover title={title} coverUrl={cover} size={70} />
+          <TrackCover
+            title={title}
+            coverUrl={cover}
+            size={isMobile ? 70 : 90}
+          />
           <span>{title}</span>
         </div>
         <div className="absolute left-2/4 top-2/4 translate-x-[-50%] translate-y-[-50%]">
