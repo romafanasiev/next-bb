@@ -8,12 +8,17 @@ const { progressBar, player } = containersIds;
 
 export const WaveFormPlayer = () => {
   const { track } = useTrack();
-  const { playPause } = useWavesurfer(progressBar, track?.demoUrl);
+  const { playPause, setVolume, muteVolume, unMuteVolume } = useWavesurfer(
+    progressBar,
+    track?.demoUrl,
+  );
   const [isOpen, setIsOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
     if (track) {
       setIsOpen(true);
+      setIsPlaying(true);
     }
   }, [track]);
 
@@ -21,17 +26,26 @@ export const WaveFormPlayer = () => {
     setIsOpen(false);
   };
 
+  const handlePlayPause = () => {
+    setIsPlaying((prev) => !prev);
+    playPause();
+  };
+
   return (
     <>
       <WaveForm containerId={progressBar} />
       {track && (
         <Player
+          isPlaying={isPlaying}
           isOpen={isOpen}
           cover={track.coverUrl}
           title={track.title}
           containerId={player}
           onClose={handleClosePlayer}
-          onPlay={playPause}
+          onVolumeChange={setVolume}
+          onPlay={handlePlayPause}
+          onMute={muteVolume}
+          onUnMute={unMuteVolume}
         />
       )}
     </>

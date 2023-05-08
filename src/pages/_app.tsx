@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
 import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from '@material-tailwind/react';
 
 import { TrackProvider } from 'context';
 import { initAuth } from 'utils';
@@ -17,9 +18,11 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <TrackProvider>
-          <Component {...pageProps} />
-        </TrackProvider>
+        <ThemeProvider>
+          <TrackProvider>
+            <Component {...pageProps} />
+          </TrackProvider>
+        </ThemeProvider>
       </Hydrate>
       <Toaster position="bottom-center" />
     </QueryClientProvider>

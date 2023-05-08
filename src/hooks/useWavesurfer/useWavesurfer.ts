@@ -13,11 +13,37 @@ export const useWavesurfer = (container: TContainersIds, url?: string) => {
       const options = containerProps(wrapper);
       wavesurfer.current = WaveSurfer.create(options);
       wavesurfer.current?.load(trackUrl);
+      wavesurfer.current?.on('ready', function () {
+        wavesurfer.current?.play();
+      });
     }
   };
 
   const handlePlayPause = () => {
     wavesurfer.current?.playPause();
+  };
+
+  const handleMute = () => {
+    wavesurfer.current?.toggleMute();
+  };
+
+  const handleUnMute = () => {
+    wavesurfer.current?.setMute(false);
+    wavesurfer.current?.setVolume(0.5);
+  };
+
+  const handleSetVolume = (value: number) => {
+    if (value === 0) {
+      handleMute();
+    } else {
+      handleUnMute();
+    }
+
+    if (value > 1) {
+      wavesurfer.current?.setVolume(value / 100);
+    } else if (value > 0 && value < 1) {
+      wavesurfer.current?.setVolume(value);
+    }
   };
 
   useEffect(() => {
@@ -26,5 +52,10 @@ export const useWavesurfer = (container: TContainersIds, url?: string) => {
     return () => wavesurfer.current?.destroy();
   }, [url, container]);
 
-  return { playPause: handlePlayPause };
+  return {
+    playPause: handlePlayPause,
+    setVolume: handleSetVolume,
+    muteVolume: handleMute,
+    unMuteVolume: handleUnMute,
+  };
 };

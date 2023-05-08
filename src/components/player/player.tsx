@@ -4,15 +4,37 @@ import { Portal, TrackCover } from 'components';
 import { useMatchMedia } from 'hooks';
 
 import CloseIcon from '../../assets/icons/close.svg';
+import PlayIcon from '../../assets/icons/play.svg';
+import StopIcon from '../../assets/icons/stop.svg';
+import ShuffleIcon from '../../assets/icons/shuffle.svg';
+import RepeatIcon from '../../assets/icons/repeat.svg';
+import SkipForwardIcon from '../../assets/icons/skipForward.svg';
+import SkipBackwardIcon from '../../assets/icons/skipBackward.svg';
+
+import { Volume } from './components';
+import {
+  buttonColor,
+  closeButtonStyles,
+  controlsWrapperStyles,
+  coverWrapperStyles,
+  playButtonStyles,
+  playerWrapperStyles,
+  skipButtonStyles,
+  subButtonStyles,
+} from './styles';
 
 import type { TContainersIds } from 'types';
 
-interface TPlayerProps {
+export interface TPlayerProps {
   cover: string;
   title: string;
   containerId: TContainersIds;
+  isPlaying: boolean;
   onClose: () => void;
   onPlay: () => void;
+  onMute: () => void;
+  onUnMute: () => void;
+  onVolumeChange: (value: number) => void;
   isOpen: boolean;
 }
 
@@ -20,23 +42,24 @@ export const Player = ({
   cover,
   title,
   containerId,
+  isPlaying,
   onClose,
+  onVolumeChange,
   onPlay,
+  onMute,
+  onUnMute,
   isOpen,
 }: TPlayerProps) => {
   const { isMobile } = useMatchMedia();
-  const styles = classNames(
-    'fixed bottom-0 flex h-[--eq-sm-size] w-full items-center justify-between bg-primary text-white sm:h-[--eq-size]',
-    {
-      'translate-y-[---eq-size]': isOpen,
-      'translate-y-[--eq-size]': !isOpen,
-    },
-  );
+  const styles = classNames(playerWrapperStyles, {
+    'translate-y-[---eq-size]': isOpen,
+    'translate-y-[--eq-size]': !isOpen,
+  });
 
   return (
     <Portal wrapperId={containerId}>
       <div className={styles}>
-        <div className="flex items-center gap-4 capitalize">
+        <div className={coverWrapperStyles}>
           <TrackCover
             title={title}
             coverUrl={cover}
@@ -44,15 +67,31 @@ export const Player = ({
           />
           <span>{title}</span>
         </div>
-        <div className="absolute left-2/4 top-2/4 translate-x-[-50%] translate-y-[-50%]">
-          <button onClick={onPlay}>Play</button>
+
+        <div className={controlsWrapperStyles}>
+          <RepeatIcon className={subButtonStyles} />
+          <SkipBackwardIcon className={skipButtonStyles} />
+
+          <button onClick={onPlay}>
+            {!isPlaying ? (
+              <PlayIcon className={playButtonStyles} />
+            ) : (
+              <StopIcon className={playButtonStyles} />
+            )}
+          </button>
+
+          <SkipForwardIcon className={skipButtonStyles} />
+          <ShuffleIcon className={subButtonStyles} />
         </div>
-        <div>Volume</div>
-        <button
-          onClick={onClose}
-          className="absolute right-2 top-1 block h-6 w-6"
-        >
-          <CloseIcon className="fill-white" />
+
+        <Volume
+          onVolumeChange={onVolumeChange}
+          onMute={onMute}
+          onUnMute={onUnMute}
+        />
+
+        <button onClick={onClose} className={closeButtonStyles}>
+          <CloseIcon className={buttonColor} />
         </button>
       </div>
     </Portal>
