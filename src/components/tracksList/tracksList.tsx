@@ -17,7 +17,7 @@ export const TracksList = ({
       <thead className="border-b border-b-white text-xs uppercase">
         <tr>
           <th scope="col" className={`${cellPaddings.split(' ')[1]}`} />
-          <th scope="col" className={cellStyles}>
+          <th scope="col" className={cellPaddings}>
             Title
           </th>
           <th scope="col" className={cellStyles}>
@@ -32,7 +32,7 @@ export const TracksList = ({
           <th scope="col" className={`${cellStyles} text-center`}>
             Tags
           </th>
-          <th scope="col" className="px-6 py-3" />
+          <th scope="col" className={cellPaddings} />
         </tr>
       </thead>
       <tbody>
