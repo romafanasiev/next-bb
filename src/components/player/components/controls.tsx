@@ -7,6 +7,7 @@ import RepeatIcon from '../../../assets/icons/repeat.svg';
 import SkipForwardIcon from '../../../assets/icons/skipForward.svg';
 import SkipBackwardIcon from '../../../assets/icons/skipBackward.svg';
 import {
+  buttonColor,
   controlsWrapperStyles,
   playButtonStyles,
   skipButtonStyles,
@@ -27,9 +28,11 @@ export const Controls = ({
 }: TControlsProps) => {
   const shuffleButtonStyles = classNames(subButtonStyles, {
     'fill-error': isRandom,
+    [buttonColor]: !isRandom,
   });
   const repeatButtonStyles = classNames(subButtonStyles, {
     'fill-error': isRepeating,
+    [buttonColor]: !isRepeating,
   });
 
   return (
