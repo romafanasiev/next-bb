@@ -9,8 +9,6 @@ export const useTrack = () => {
     track: trackContext?.track,
     isRepeating: trackContext.isRepeating,
     isRandom: trackContext.isRandom,
-    volume: trackContext.volume,
-    setVolume: trackContext.updateVolume,
     setNewTrack: trackContext.setNewTrack,
     setRepeating: trackContext.setRepeating,
     setRandom: trackContext.setRandom,
