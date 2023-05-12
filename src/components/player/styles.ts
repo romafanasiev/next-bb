@@ -5,9 +5,10 @@ const buttonSizes = {
   big: 'h-[30px] w-[30px] md:h-[38px] md:w-[38px]',
 };
 
-export const subButtonStyles = `${buttonColor} + ${buttonSizes.sm} hidden md:block`;
-export const playButtonStyles = `${buttonColor} ${buttonSizes.big} rounded-full bg-white fill-black`;
-export const skipButtonStyles = `${buttonColor} + ${buttonSizes.medium}`;
+export const soundButtonStyles = `${buttonColor} h-[24px] w-[24px]`;
+export const subButtonStyles = `${buttonColor} ${buttonSizes.sm} hidden md:block`;
+export const playButtonStyles = `${buttonSizes.big} rounded-full bg-white fill-black`;
+export const skipButtonStyles = `${buttonColor} ${buttonSizes.medium}`;
 export const closeButtonStyles =
   'absolute right-0 top-0 block h-6 w-6 md:right-2 md:top-1';
 

@@ -7,9 +7,22 @@ import { containersIds } from '@constants';
 const { progressBar, player } = containersIds;
 
 export const WaveFormPlayer = () => {
-  const { track } = useTrack();
+  const {
+    track,
+    setRepeating,
+    isRepeating,
+    isRandom,
+    setRandom,
+    setRandomTrack,
+    setSkipForward,
+    setSkipBackward,
+  } = useTrack();
   const { playPause, setVolume, muteVolume, unMuteVolume } = useWavesurfer(
     progressBar,
+    setSkipForward,
+    isRepeating,
+    isRandom,
+    setRandomTrack,
     track?.demoUrl,
   );
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +50,8 @@ export const WaveFormPlayer = () => {
       {track && (
         <Player
           isPlaying={isPlaying}
+          isRepeating={isRepeating}
+          isRandom={isRandom}
           isOpen={isOpen}
           cover={track.coverUrl}
           title={track.title}
@@ -46,6 +61,10 @@ export const WaveFormPlayer = () => {
           onPlay={handlePlayPause}
           onMute={muteVolume}
           onUnMute={unMuteVolume}
+          onRandom={setRandom}
+          skipForward={setSkipForward}
+          skipBackward={setSkipBackward}
+          onRepeat={setRepeating}
         />
       )}
     </>

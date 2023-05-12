@@ -4,8 +4,28 @@ import { TContainersIds } from 'types';
 
 import { containerProps } from './styles';
 
-export const useWavesurfer = (container: TContainersIds, url?: string) => {
+export const useWavesurfer = (
+  container: TContainersIds,
+  setNextTrack: () => void,
+  isRepeating?: boolean,
+  isRandom?: boolean,
+  setNextRandomTrack?: () => void,
+  url?: string,
+) => {
   const wavesurfer = useRef<WaveSurfer | null>(null);
+
+  const handleFinish = () => {
+    wavesurfer.current?.on('finish', () => {
+      if (isRepeating) {
+        wavesurfer.current?.seekTo(0);
+        wavesurfer.current?.play();
+      } else if (isRandom && setNextRandomTrack) {
+        setNextRandomTrack();
+      } else {
+        setNextTrack();
+      }
+    });
+  };
 
   const create = async (wrapper: TContainersIds, trackUrl?: string) => {
     if (trackUrl) {
@@ -13,9 +33,11 @@ export const useWavesurfer = (container: TContainersIds, url?: string) => {
       const options = containerProps(wrapper);
       wavesurfer.current = WaveSurfer.create(options);
       wavesurfer.current?.load(trackUrl);
-      wavesurfer.current?.on('ready', function () {
+      wavesurfer.current?.on('ready', () => {
         wavesurfer.current?.play();
       });
+
+      handleFinish();
     }
   };
 
@@ -47,10 +69,15 @@ export const useWavesurfer = (container: TContainersIds, url?: string) => {
   };
 
   useEffect(() => {
+    wavesurfer.current?.unAll();
+    handleFinish();
+  }, [isRepeating, isRandom]);
+
+  useEffect(() => {
     create(container, url);
 
     return () => wavesurfer.current?.destroy();
-  }, [url, container]);
+  }, [url]);
 
   return {
     playPause: handlePlayPause,

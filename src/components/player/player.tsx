@@ -4,47 +4,30 @@ import { Portal, TrackCover } from 'components';
 import { useMatchMedia } from 'hooks';
 
 import CloseIcon from '../../assets/icons/close.svg';
-import PlayIcon from '../../assets/icons/play.svg';
-import StopIcon from '../../assets/icons/stop.svg';
-import ShuffleIcon from '../../assets/icons/shuffle.svg';
-import RepeatIcon from '../../assets/icons/repeat.svg';
-import SkipForwardIcon from '../../assets/icons/skipForward.svg';
-import SkipBackwardIcon from '../../assets/icons/skipBackward.svg';
 
-import { Volume } from './components';
+import { Volume, Controls } from './components';
 import {
   buttonColor,
   closeButtonStyles,
-  controlsWrapperStyles,
   coverWrapperStyles,
-  playButtonStyles,
   playerWrapperStyles,
-  skipButtonStyles,
-  subButtonStyles,
 } from './styles';
 
-import type { TContainersIds } from 'types';
-
-export interface TPlayerProps {
-  cover: string;
-  title: string;
-  containerId: TContainersIds;
-  isPlaying: boolean;
-  onClose: () => void;
-  onPlay: () => void;
-  onMute: () => void;
-  onUnMute: () => void;
-  onVolumeChange: (value: number) => void;
-  isOpen: boolean;
-}
+import type { TPlayerProps } from './types';
 
 export const Player = ({
   cover,
   title,
   containerId,
   isPlaying,
+  isRandom,
+  isRepeating,
   onClose,
   onVolumeChange,
+  onRandom,
+  skipForward,
+  skipBackward,
+  onRepeat,
   onPlay,
   onMute,
   onUnMute,
@@ -68,21 +51,16 @@ export const Player = ({
           <span>{title}</span>
         </div>
 
-        <div className={controlsWrapperStyles}>
-          <RepeatIcon className={subButtonStyles} />
-          <SkipBackwardIcon className={skipButtonStyles} />
-
-          <button onClick={onPlay}>
-            {!isPlaying ? (
-              <PlayIcon className={playButtonStyles} />
-            ) : (
-              <StopIcon className={playButtonStyles} />
-            )}
-          </button>
-
-          <SkipForwardIcon className={skipButtonStyles} />
-          <ShuffleIcon className={subButtonStyles} />
-        </div>
+        <Controls
+          isPlaying={isPlaying}
+          isRandom={isRandom}
+          isRepeating={isRepeating}
+          onRepeat={onRepeat}
+          onRandom={onRandom}
+          onPlay={onPlay}
+          skipBackward={skipBackward}
+          skipForward={skipForward}
+        />
 
         <Volume
           onVolumeChange={onVolumeChange}

@@ -4,15 +4,12 @@ import { Slider } from '@material-tailwind/react';
 import MutedIcon from '../../../assets/icons/muted.svg';
 import VolumeDownIcon from '../../../assets/icons/volumeDown.svg';
 import VolumeUpIcon from '../../../assets/icons/volumeUp.svg';
+import { soundButtonStyles } from '../styles';
 
-import type { TPlayerProps } from '../player';
 import type { ChangeEvent } from 'react';
+import type { TVolumeProps } from '../types';
 
-export const Volume = ({
-  onVolumeChange,
-  onMute,
-  onUnMute,
-}: Pick<TPlayerProps, 'onVolumeChange' | 'onMute' | 'onUnMute'>) => {
+export const Volume = ({ onVolumeChange, onMute, onUnMute }: TVolumeProps) => {
   const [volume, setVolume] = useState(50);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -32,16 +29,12 @@ export const Volume = ({
 
   return (
     <div className="hidden items-center gap-4 pr-4 text-white md:flex">
-      <button onClick={handleVolume}>
-        {volume === 0 && <MutedIcon className="h-[24px] w-[24px] fill-white" />}
+      <button onClick={handleVolume} className={soundButtonStyles}>
+        {volume === 0 && <MutedIcon />}
 
-        {volume > 75 && volume !== 0 && (
-          <VolumeUpIcon className="h-[24px] w-[24px] fill-white" />
-        )}
+        {volume > 75 && volume !== 0 && <VolumeUpIcon />}
 
-        {volume < 75 && volume !== 0 && (
-          <VolumeDownIcon className="h-[24px] w-[24px] fill-white" />
-        )}
+        {volume < 75 && volume !== 0 && <VolumeDownIcon />}
       </button>
 
       <Slider
