@@ -6,7 +6,7 @@ const buttonSizes = {
 };
 
 export const soundButtonStyles = `${buttonColor} h-[24px] w-[24px]`;
-export const subButtonStyles = `${buttonColor} ${buttonSizes.sm} hidden md:block`;
+export const subButtonStyles = `${buttonSizes.sm} hidden md:block`;
 export const playButtonStyles = `${buttonSizes.big} rounded-full bg-white fill-black`;
 export const skipButtonStyles = `${buttonColor} ${buttonSizes.medium}`;
 export const closeButtonStyles =
