@@ -1,16 +1,23 @@
-import { Badge, TrackCover } from 'components';
+import { Badge, Button, TrackCover } from 'components';
 
-import type { TTrack } from 'types';
+import AddToCart from '../../assets/icons/addToCart.svg';
 
-const cellPaddings = 'px-6 py-4';
+import type { ITrack } from 'types';
+
+const cellPaddings = 'px-3 py-2 md:px-6 md:py-4';
 const cellStyles = `${cellPaddings} hidden md:table-cell`;
 
 export const TrackCard = ({
   track,
   onClick,
+  handleAdd,
 }: {
-  track: TTrack;
-  onClick?: (track: TTrack) => void;
+  track: ITrack;
+  onClick?: (track: ITrack) => void;
+  handleAdd?: (
+    track: ITrack,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => void;
 }) => {
   const { coverUrl, title, tags, bpm, standardPrice, duration, key } = track;
   const minutes = Math.floor(duration / 60);
@@ -24,7 +31,7 @@ export const TrackCard = ({
         onClick?.(track);
       }}
     >
-      <td className="w-[64px] rounded-sm pl-[20px]">
+      <td className="w-[64px] min-w-[64px] rounded-sm pl-[20px]">
         <TrackCover coverUrl={coverUrl} title={title} rounded />
       </td>
       <th scope="row" className={`${cellPaddings.split(' ')[0]} capitalize`}>
@@ -33,15 +40,18 @@ export const TrackCard = ({
       <td className={cellStyles}>{`${minutes}:${seconds}`}</td>
       <td className={cellStyles}>{bpm}</td>
       <td className={`${cellStyles} text-center`}>{key}</td>
-      <td
-        className={`${cellPaddings} hidden flex-wrap items-center justify-center gap-2 md:flex`}
-      >
+      <td className="hidden h-full flex-wrap items-center justify-center gap-2 px-6 py-6 md:flex">
         {tagsList.map((tag, index) => (
           <Badge key={index}>{tag}</Badge>
         ))}
       </td>
-      <td className={`${cellPaddings} text-end`}>
-        <button>{standardPrice}$</button>
+      <td className={`${cellPaddings} z-50 text-end`}>
+        <Button variant="secondary" onClick={(e) => handleAdd?.(track, e)}>
+          <span className="flex items-center gap-2">
+            <AddToCart />
+            {standardPrice}.00$
+          </span>
+        </Button>
       </td>
     </tr>
   );

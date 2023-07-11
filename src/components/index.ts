@@ -9,3 +9,4 @@ export * from './badge';
 export * from './portal';
 export * from './player';
 export * from './waveForm';
+export * from './button';

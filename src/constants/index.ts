@@ -8,3 +8,4 @@ export * from './musicKeys';
 export * from './licenseTypes';
 export * from './containersIds';
 export * from './breakpoints';
+export * from './storageIds';

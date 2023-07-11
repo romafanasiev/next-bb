@@ -1,4 +1,4 @@
-export interface TTrack {
+export interface ITrack {
   id: string;
   coverUrl: string;
   demoUrl: string;
