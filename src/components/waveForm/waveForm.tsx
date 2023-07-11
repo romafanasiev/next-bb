@@ -1,7 +1,10 @@
 import type { TContainersIds } from 'types';
 
 export const WaveForm = (props: { containerId: TContainersIds }) => (
-  <div id={props.containerId} className="relative h-[--eq-size]">
-    <div className="absolute bottom-0 h-3/6 w-full bg-additional z-10 opacity-70" />
-  </div>
+  <div
+    id={props.containerId}
+    className="relative h-[--eq-size] after:absolute
+      after:bottom-0 after:z-10 after:block after:h-3/6
+      after:w-full after:bg-additional after:opacity-70 after:content-['']"
+  />
 );

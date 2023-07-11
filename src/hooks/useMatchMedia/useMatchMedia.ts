@@ -1,9 +1,13 @@
 import { useState, useLayoutEffect } from 'react';
 
+import { breakpoints } from '@constants';
+
+const { tablet, desktop, largeDesktop } = breakpoints;
+
 const queries = [
-  '(max-width: 640px)',
-  '(min-width: 641px) and (max-width: 1199px)',
-  '(min-width: 1200px)',
+  `(max-width: ${tablet}px)`,
+  `(min-width: ${tablet + 1}px) and (max-width: ${desktop - 1})`,
+  `(min-width: ${largeDesktop}px)`,
 ];
 
 interface TMatchedMedia {
