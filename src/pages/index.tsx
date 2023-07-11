@@ -2,18 +2,15 @@ import { withAuthUser } from 'next-firebase-auth';
 
 import { MainLayout } from 'layouts';
 import { TracksList } from 'components';
-import { useTrack, useTracks } from 'hooks';
+import { useCart, useTrack, useTracks } from 'hooks';
 import { WaveFormPlayer } from 'modules';
-import { useStore } from 'store';
 
 import type { ITrack } from 'types';
 import type { MouseEvent } from 'react';
 
 const Home = () => {
   const { tracks, isLoading } = useTracks();
-  const addToCart = useStore.use.addToCart();
-  const cart = useStore.use.cart();
-
+  const { addToCart } = useCart();
   const { setNewTrack } = useTrack();
 
   if (isLoading) {
@@ -25,7 +22,6 @@ const Home = () => {
   const handleAdd = (track: ITrack, e: MouseEvent) => {
     e.stopPropagation();
     addToCart(track);
-    console.log(cart);
   };
 
   return (
