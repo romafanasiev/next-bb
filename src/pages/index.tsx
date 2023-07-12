@@ -1,4 +1,5 @@
 import { withAuthUser } from 'next-firebase-auth';
+import Spinner from '@material-tailwind/react/components/Spinner';
 
 import { MainLayout } from 'layouts';
 import { TracksList } from 'components';
@@ -14,7 +15,11 @@ const Home = () => {
   const { setNewTrack } = useTrack();
 
   if (isLoading) {
-    return <p>Loading</p>;
+    return (
+      <div className="flex h-[100vh]">
+        <Spinner className="m-auto h-12 w-12" />
+      </div>
+    );
   }
 
   const handleClick = (track: ITrack) => setNewTrack(track);

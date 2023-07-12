@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-tailwind/react';
 
 import { TrackProvider } from 'context';
 import { initAuth } from 'utils';
+import { theme } from 'theme';
 
 import type { AppProps } from 'next/app';
 
@@ -18,7 +19,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <ThemeProvider>
+        <ThemeProvider value={theme}>
           <TrackProvider>
             <Component {...pageProps} />
           </TrackProvider>
