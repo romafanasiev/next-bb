@@ -5,13 +5,13 @@ import { licenseTypes } from '@constants';
 import { storage } from 'utils';
 import { getAudioDuration } from 'helpers';
 
-import type { TTrack, TUploadForm } from 'types';
+import type { ITrack, TUploadForm } from 'types';
 
 export const uploadTrack = async (
   data: TUploadForm,
   progressFunc?: (progress: number) => void,
   errorFunc?: (message: string) => void,
-): Promise<TTrack> => {
+): Promise<ITrack> => {
   const uuid = uuidv4();
   const {
     cover,
