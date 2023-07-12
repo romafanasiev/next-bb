@@ -4,15 +4,15 @@ import { createContext, useState } from 'react';
 import { useTracks } from 'hooks';
 
 import type { PropsWithChildren } from 'react';
-import type { TTrack } from 'types';
+import type { ITrack } from 'types';
 
-interface TTrackContext {
-  track: TTrack | null;
+interface ITrackContext {
+  track: ITrack | null;
   isRepeating: boolean;
   isRandom: boolean;
   isPlaying: boolean;
   handlePlay: (value: boolean) => void;
-  setNewTrack: (track: TTrack | null) => void;
+  setNewTrack: (track: ITrack | null) => void;
   setRepeating: () => void;
   setRandom: () => void;
   setRandomTrack: () => void;
@@ -35,20 +35,20 @@ const inititalState = {
   setSkipBackward: () => null,
 };
 
-const getTrackIndex = (tracks: TTrack[], id: TTrack['id']) =>
+const getTrackIndex = (tracks: ITrack[], id: ITrack['id']) =>
   tracks.findIndex((item) => item.id === id);
 
-export const TrackContext = createContext<TTrackContext>(inititalState);
+export const TrackContext = createContext<ITrackContext>(inititalState);
 
 export const TrackProvider = ({ children }: PropsWithChildren) => {
   const { tracks } = useTracks();
-  const [track, setTrack] = useState<TTrackContext['track']>(null);
+  const [track, setTrack] = useState<ITrackContext['track']>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isRepeating, setIsRepeating] = useState(false);
   const [isRandom, setIsRandom] = useState(false);
   const minimalReq = tracks && tracks.length >= 2 && track;
 
-  const setNewTrack = (track: TTrack | null) => {
+  const setNewTrack = (track: ITrack | null) => {
     if (track) {
       setTrack({ ...track });
     } else {
