@@ -5,9 +5,10 @@ import { useAuthSignOut } from '@react-query-firebase/auth';
 
 import { firebaseAuth } from 'utils';
 import { routes } from '@constants';
+import { Cart } from 'modules';
 
 const {
-  default: { auth, about, faq, cart },
+  default: { auth, about, faq },
   users: { root },
   admin: { root: adminRoot },
 } = routes;
@@ -41,11 +42,9 @@ export const NavBar = () => {
           <Link href={faq}>FAQ</Link>
         </li>
 
-        {!user.claims.admin && (
-          <li>
-            <Link href={cart}>Cart</Link>
-          </li>
-        )}
+        <li>
+          <Cart />
+        </li>
 
         {!user.id && (
           <li>
