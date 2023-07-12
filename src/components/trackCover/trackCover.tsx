@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import classNames from 'classnames';
 
-import type { TTrack } from 'types';
+import type { ITrack } from 'types';
 
-type TTrackCoverProps = Pick<TTrack, 'title' | 'coverUrl'> & {
+type TTrackCoverProps = Pick<ITrack, 'title' | 'coverUrl'> & {
   size?: number;
   rounded?: boolean;
 };

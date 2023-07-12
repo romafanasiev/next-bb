@@ -12,6 +12,8 @@ export const WaveFormPlayer = () => {
     setRepeating,
     isRepeating,
     isRandom,
+    isPlaying,
+    setIsPlaying,
     setRandom,
     setRandomTrack,
     setSkipForward,
@@ -26,7 +28,6 @@ export const WaveFormPlayer = () => {
     track?.demoUrl,
   );
   const [isOpen, setIsOpen] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
     if (track) {
@@ -40,7 +41,7 @@ export const WaveFormPlayer = () => {
   };
 
   const handlePlayPause = () => {
-    setIsPlaying((prev) => !prev);
+    setIsPlaying(!isPlaying);
     playPause();
   };
 

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 import { TContainersIds } from 'types';
+import { useWindowSize } from 'hooks/useWindowSize';
 
 import { containerProps } from './styles';
 
@@ -13,6 +14,7 @@ export const useWavesurfer = (
   url?: string,
 ) => {
   const wavesurfer = useRef<WaveSurfer | null>(null);
+  const [width] = useWindowSize();
 
   const handleFinish = () => {
     wavesurfer.current?.on('finish', () => {
@@ -67,6 +69,10 @@ export const useWavesurfer = (
       wavesurfer.current?.setVolume(value);
     }
   };
+
+  useEffect(() => {
+    wavesurfer.current?.drawBuffer();
+  }, [width]);
 
   useEffect(() => {
     wavesurfer.current?.unAll();

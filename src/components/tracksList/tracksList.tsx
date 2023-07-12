@@ -1,6 +1,6 @@
 import { TrackCard } from 'components';
 
-import type { TTrack } from 'types';
+import type { ITrack } from 'types';
 
 const cellPaddings = 'px-6 py-3';
 const cellStyles = `${cellPaddings} hidden md:table-cell`;
@@ -8,9 +8,14 @@ const cellStyles = `${cellPaddings} hidden md:table-cell`;
 export const TracksList = ({
   tracks,
   onClick,
+  handleAdd,
 }: {
-  tracks?: TTrack[];
-  onClick?: (track: TTrack) => void;
+  tracks?: ITrack[];
+  onClick?: (track: ITrack) => void;
+  handleAdd?: (
+    track: ITrack,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => void;
 }) => (
   <div className="rounded-3xl bg-primary py-4 text-white">
     <table className="w-full text-left text-sm ">
@@ -38,7 +43,12 @@ export const TracksList = ({
       <tbody>
         {tracks &&
           tracks.map((track) => (
-            <TrackCard key={track.id} track={track} onClick={onClick} />
+            <TrackCard
+              key={track.id}
+              track={track}
+              onClick={onClick}
+              handleAdd={handleAdd}
+            />
           ))}
       </tbody>
     </table>

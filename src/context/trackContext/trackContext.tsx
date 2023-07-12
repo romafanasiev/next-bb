@@ -10,6 +10,8 @@ interface TTrackContext {
   track: TTrack | null;
   isRepeating: boolean;
   isRandom: boolean;
+  isPlaying: boolean;
+  handlePlay: (value: boolean) => void;
   setNewTrack: (track: TTrack | null) => void;
   setRepeating: () => void;
   setRandom: () => void;
@@ -22,6 +24,8 @@ const inititalState = {
   track: null,
   isRepeating: false,
   isRandom: false,
+  isPlaying: false,
+  handlePlay: () => null,
   setIsRandom: () => null,
   setNewTrack: () => null,
   setRepeating: () => null,
@@ -39,6 +43,7 @@ export const TrackContext = createContext<TTrackContext>(inititalState);
 export const TrackProvider = ({ children }: PropsWithChildren) => {
   const { tracks } = useTracks();
   const [track, setTrack] = useState<TTrackContext['track']>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isRepeating, setIsRepeating] = useState(false);
   const [isRandom, setIsRandom] = useState(false);
   const minimalReq = tracks && tracks.length >= 2 && track;
@@ -49,6 +54,10 @@ export const TrackProvider = ({ children }: PropsWithChildren) => {
     } else {
       setTrack(null);
     }
+  };
+
+  const handlePlay = (value: boolean) => {
+    setIsPlaying(value);
   };
 
   const setRandom = () => {
@@ -100,6 +109,8 @@ export const TrackProvider = ({ children }: PropsWithChildren) => {
         track,
         isRepeating,
         isRandom,
+        isPlaying,
+        handlePlay,
         setNewTrack,
         setRepeating,
         setRandom,
