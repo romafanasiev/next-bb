@@ -4,7 +4,7 @@ import { useFirestoreQueryData } from '@react-query-firebase/firestore';
 import { firestore } from 'utils';
 
 import type { CollectionReference } from 'firebase/firestore';
-import type { TTrack } from 'types';
+import type { ITrack } from 'types';
 
 export const useTracks = () => {
   const ref = query(
@@ -13,9 +13,9 @@ export const useTracks = () => {
     limit(20),
   );
 
-  const tracks = useFirestoreQueryData<TTrack>(
+  const tracks = useFirestoreQueryData<ITrack>(
     'tracks',
-    ref as CollectionReference<TTrack>,
+    ref as CollectionReference<ITrack>,
   );
 
   return { tracks: tracks.data, isLoading: tracks.isLoading };
