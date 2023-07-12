@@ -20,8 +20,9 @@ const Home = () => {
   const handleClick = (track: ITrack) => setNewTrack(track);
 
   const handleAdd = (track: ITrack, e: MouseEvent) => {
+    const { id, coverUrl, standardPrice, title } = track;
     e.stopPropagation();
-    addToCart(track);
+    addToCart({ id, coverUrl, title, price: standardPrice });
   };
 
   return (

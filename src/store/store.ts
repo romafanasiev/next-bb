@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 
 import { storageIds } from '@constants';
 
-import type { ITrack } from 'types';
+import type { TCartItem } from 'types';
 
 // Autogenerate selectors
 type WithSelectors<S> = S extends { getState: () => infer T }
@@ -25,9 +25,9 @@ const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
 
 // Store instance
 interface AppState {
-  cart: ITrack[];
-  addToCart: (track: ITrack) => void;
-  removeFromCart: (track: ITrack) => void;
+  cart: TCartItem[];
+  addToCart: (track: TCartItem) => void;
+  removeFromCart: (id: TCartItem['id']) => void;
 }
 
 const useStoreBase = create<AppState>()(
@@ -43,9 +43,9 @@ const useStoreBase = create<AppState>()(
 
             return state;
           }),
-        removeFromCart: (track) =>
+        removeFromCart: (id) =>
           set((state) => {
-            return { cart: state.cart.filter((item) => item.id !== track.id) };
+            return { cart: state.cart.filter((item) => item.id !== id) };
           }),
       };
     },

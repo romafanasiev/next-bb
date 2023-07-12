@@ -11,3 +11,7 @@ export interface ITrack {
   exclusive: boolean;
   duration: number;
 }
+
+export type TCartItem = Pick<ITrack, 'id' | 'coverUrl' | 'title'> & {
+  price: number;
+};
