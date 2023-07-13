@@ -21,7 +21,6 @@
     "max-lines": ["error", { "max": 100, "skipBlankLines": true }],
     "react/react-in-jsx-scope": "off",
     "unused-imports/no-unused-imports": "error",
-    "unused-imports/no-unused-vars": "error",
     "no-useless-catch": "error",
     "no-unneeded-ternary": "error",
     "key-spacing": "error",
@@ -98,6 +97,10 @@
     ],
     "@typescript-eslint/consistent-type-definitions": ["warn", "interface"],
     "@typescript-eslint/restrict-template-expressions": "warn",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "ignoreRestSiblings": true, "argsIgnorePattern": "^_$" }
+    ],
     "object-curly-newline": [
       "warn",
       {
