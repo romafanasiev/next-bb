@@ -26,15 +26,23 @@ const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
 // Store instance
 interface AppState {
   cart: TCartItem[];
+  clearCart: () => void;
   addToCart: (track: TCartItem) => void;
   removeFromCart: (id: TCartItem['id']) => void;
 }
+
+const initialState = {
+  cart: [],
+};
 
 const useStoreBase = create<AppState>()(
   persist(
     (set) => {
       return {
-        cart: [],
+        ...initialState,
+        clearCart: () => {
+          set(initialState);
+        },
         addToCart: (track) =>
           set((state) => {
             if (!state.cart.find((item) => item.id === track.id)) {

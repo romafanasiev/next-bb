@@ -2,10 +2,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuthUser } from 'next-firebase-auth';
 import { useAuthSignOut } from '@react-query-firebase/auth';
+import dynamic from 'next/dynamic';
 
 import { firebaseAuth } from 'utils';
 import { routes } from '@constants';
-import { Cart } from 'modules';
+
+const Cart = dynamic(() => import('../cart').then((module) => module.Cart), {
+  ssr: false,
+});
 
 const {
   default: { auth, about, faq, root },

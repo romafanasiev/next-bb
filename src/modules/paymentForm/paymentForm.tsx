@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   PaymentElement,
   useElements,
@@ -6,23 +6,24 @@ import {
 } from '@stripe/react-stripe-js';
 import toast from 'react-hot-toast';
 
-import type { FieldOption, Layout } from '@stripe/stripe-js';
+import { useCart } from 'hooks';
+
+import type { Layout } from '@stripe/stripe-js';
 import type { FormEvent } from 'react';
 
 export const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { clearCart } = useCart();
 
   const paymentElementOptions = {
     layout: 'tabs' as Layout,
     paymentMethodOrder: ['card', 'apple_pay', 'google_pay'],
-    fields: {
-      billingDetails: {
-        address: 'never' as FieldOption,
-      },
-    },
+    // fields: {
+    //   billingDetails: {
+    //     address: 'never' as FieldOption,
+    //   },
+    // },
   };
 
   useEffect(() => {
@@ -38,47 +39,64 @@ export const PaymentForm = () => {
       return;
     }
 
-    toast.promise(
-      stripe
-        .retrievePaymentIntent(clientSecret)
-        .then(({ paymentIntent }) => paymentIntent?.status),
-      {
-        loading: 'Your payment is processing',
-        success: 'Payment succeeded!',
-        error: 'Your payment was not successful, please try again.',
-      },
-    );
+    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+      switch (paymentIntent?.status) {
+        case 'succeeded':
+          clearCart();
+          toast.success('Payment succeeded!');
+          break;
+        case 'processing':
+          toast('Please wait...');
+          break;
+        case 'requires_payment_method':
+          toast.error('Your payment was not successful, please try again.');
+          break;
+        default:
+          toast.error('Something went wrong.');
+          break;
+      }
+    });
 
-    //     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-    //       switch (paymentIntent?.status) {
-    //         case 'succeeded':
-    //           toast.success('Payment succeeded!');
-    //           break;
-    //         case 'processing':
-    //           toast.promise(
-    //   saveSettings(settings),
-    //    {
-    //      loading: 'Saving...',
-    //      success: <b>Settings saved!</b>,
-    //      error: <b>Could not save.</b>,
-    //    }
-    //  );
-    //           toast.('Your payment is processing.');
-    //           break;
-    //         case 'requires_payment_method':
-    //           toast.error('Your payment was not successful, please try again.');
-    //           break;
-    //         default:
-    //           toast.error('Something went wrong.');
-    //           break;
-    //       }
-    //     });
+    // toast.promise(
+    //   stripe
+    //     .retrievePaymentIntent(clientSecret)
+    //     .then(({ paymentIntent }) => paymentIntent?.status),
+    //   {
+    //     loading: 'Your payment is processing',
+    //     success: 'Payment succeeded!',
+    //     error: 'Your payment was not successful, please try again.',
+    //   },
+    // );
   }, [stripe]);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    console.log(e);
+    if (!stripe || !elements) {
+      // Stripe.js hasn't yet loaded.
+      // Make sure to disable form submission until Stripe.js has loaded.
+      return;
+    }
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+        // return_url: window.location.origin,
+        return_url: 'http://localhost:3000/cart',
+      },
+    });
+
+    // This point will only be reached if there is an immediate error when
+    // confirming the payment. Otherwise, your customer will be redirected to
+    // your `return_url`. For some payment methods like iDEAL, your customer will
+    // be redirected to an intermediate site first to authorize the payment, then
+    // redirected to the `return_url`.
+    if (error.type === 'card_error' || error.type === 'validation_error') {
+      toast.error(error.message ?? '');
+    } else {
+      toast.error('An unexpected error occurred.');
+    }
   };
 
   return (

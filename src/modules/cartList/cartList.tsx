@@ -1,13 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useElements } from '@stripe/react-stripe-js';
 import { Spinner } from '@material-tailwind/react';
+import dynamic from 'next/dynamic';
 import classNames from 'classnames';
 
-import { PaymentForm } from 'modules';
 import { useCart } from 'hooks';
 import { CartItem } from 'components';
 
-export const CartList = () => {
+const PaymentForm = dynamic(
+  () => import('../paymentForm').then((module) => module.PaymentForm),
+  {
+    ssr: false,
+  },
+);
+
+export const CartList: React.FC = () => {
   const [isStripeLoading, setIsStripLoading] = useState(true);
 
   const elements = useElements();
@@ -25,15 +32,17 @@ export const CartList = () => {
     <div className="m-auto flex h-full max-w-[345px] flex-col justify-center gap-2">
       {isStripeLoading && <Spinner />}
       <div className={classNames({ hidden: isStripeLoading })}>
-        {cart.map((item) => (
-          <CartItem
-            key={item.id}
-            coverUrl={item.coverUrl}
-            title={item.title}
-            price={item.price}
-          />
-        ))}
-        <PaymentForm />
+        <div>
+          {cart.map((item) => (
+            <CartItem
+              key={item.id}
+              coverUrl={item.coverUrl}
+              title={item.title}
+              price={item.price}
+            />
+          ))}
+          <PaymentForm />
+        </div>
       </div>
     </div>
   );

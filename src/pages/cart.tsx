@@ -1,30 +1,31 @@
 import { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { withAuthUser } from 'next-firebase-auth';
-import { loadStripe } from '@stripe/stripe-js';
 
 import { MainLayout } from 'layouts';
+import { getStripe } from 'utils';
 import { CartList } from 'modules';
+import { useCart } from 'hooks';
 
 import type { Appearance } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY ?? '', {
-  locale: 'en',
-});
+const stripePromise = getStripe();
 
-const Cart = () => {
+const CartPage = () => {
   const [clientSecret, setClientSecret] = useState('');
+  const { cart } = useCart();
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
+
     fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: [{ id: 'xl-tshirt' }] }),
+      body: JSON.stringify({ items: cart }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
-  }, []);
+  }, [cart]);
 
   const appearance = {
     theme: 'flat' as Appearance['theme'],
@@ -46,4 +47,4 @@ const Cart = () => {
   );
 };
 
-export default withAuthUser()(Cart);
+export default withAuthUser()(CartPage);
