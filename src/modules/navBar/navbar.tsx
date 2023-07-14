@@ -8,8 +8,8 @@ import { routes } from '@constants';
 import { Cart } from 'modules';
 
 const {
-  default: { auth, about, faq },
-  users: { root },
+  default: { auth, about, faq, root },
+  users: { root: usersRoot },
   admin: { root: adminRoot },
 } = routes;
 
@@ -20,12 +20,14 @@ export const NavBar = () => {
 
   return (
     <nav className="flex h-[--header-size] items-center justify-between bg-primary px-2 text-white sm:px-6 lg:px-8">
-      <p>Logo</p>
+      <Link href={root}>
+        <p>Logo</p>
+      </Link>
 
       <ul className="flex gap-4">
         {user.id && !user.claims.admin && (
           <li>
-            <Link href={root}>Library</Link>
+            <Link href={usersRoot}>Library</Link>
           </li>
         )}
 

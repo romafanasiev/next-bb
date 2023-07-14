@@ -4,11 +4,13 @@ import { withAuthUser } from 'next-firebase-auth';
 import { loadStripe } from '@stripe/stripe-js';
 
 import { MainLayout } from 'layouts';
-import { PaymentForm } from 'modules';
+import { CartList } from 'modules';
 
 import type { Appearance } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY ?? '');
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY ?? '', {
+  locale: 'en',
+});
 
 const Cart = () => {
   const [clientSecret, setClientSecret] = useState('');
@@ -37,7 +39,7 @@ const Cart = () => {
     <MainLayout>
       {clientSecret && (
         <Elements stripe={stripePromise} options={options}>
-          <PaymentForm />
+          <CartList />
         </Elements>
       )}
     </MainLayout>
