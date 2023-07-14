@@ -6,6 +6,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { MainLayout } from 'layouts';
 import { PaymentForm } from 'modules';
 
+import type { Appearance } from '@stripe/stripe-js';
+
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY ?? '');
 
 const Cart = () => {
@@ -22,20 +24,20 @@ const Cart = () => {
       .then((data) => setClientSecret(data.clientSecret));
   }, []);
 
-  // const appearance = {
-  //   theme: 'flat',
-  // };
+  const appearance = {
+    theme: 'flat' as Appearance['theme'],
+  };
 
   const options = {
     clientSecret,
-    // appearance,
+    appearance,
   };
 
   return (
     <MainLayout>
       {clientSecret && (
         <Elements stripe={stripePromise} options={options}>
-          <PaymentForm clientSecret={clientSecret} />
+          <PaymentForm />
         </Elements>
       )}
     </MainLayout>
