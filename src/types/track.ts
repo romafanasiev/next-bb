@@ -1,3 +1,5 @@
+import { tracksVersions } from '@constants';
+
 export interface ITrack {
   id: string;
   coverUrl: string;
@@ -13,5 +15,6 @@ export interface ITrack {
 }
 
 export type TCartItem = Pick<ITrack, 'id' | 'coverUrl' | 'title'> & {
+  version: (typeof tracksVersions)[keyof typeof tracksVersions];
   price: number;
 };

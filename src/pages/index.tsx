@@ -5,6 +5,7 @@ import { MainLayout } from 'layouts';
 import { TracksList } from 'components';
 import { useCart, useTrack, useTracks } from 'hooks';
 import { WaveFormPlayer } from 'modules';
+import { tracksVersions } from '@constants';
 
 import type { ITrack } from 'types';
 import type { MouseEvent } from 'react';
@@ -27,7 +28,13 @@ const Home = () => {
   const handleAdd = (track: ITrack, e: MouseEvent) => {
     const { id, coverUrl, standardPrice, title } = track;
     e.stopPropagation();
-    addToCart({ id, coverUrl, title, price: standardPrice });
+    addToCart({
+      id,
+      coverUrl,
+      title,
+      price: standardPrice,
+      version: tracksVersions.standart,
+    });
   };
 
   return (

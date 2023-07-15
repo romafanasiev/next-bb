@@ -3,8 +3,9 @@ import { Elements } from '@stripe/react-stripe-js';
 import { withAuthUser } from 'next-firebase-auth';
 import { httpsCallable } from 'firebase/functions';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
-import { errorMessages } from '@constants';
+import { errorMessages, routes } from '@constants';
 import { MainLayout } from 'layouts';
 import { functions, getStripe } from 'utils';
 import { CartList } from 'modules';
@@ -14,18 +15,39 @@ import type { Appearance } from '@stripe/stripe-js';
 
 const stripePromise = getStripe();
 const paymentIntentFunc = httpsCallable(functions, 'createPaymentIntent');
+const cancelPaymentIntentFunc = httpsCallable(functions, 'cancelPaymentIntent');
+
+interface TPaymentIntent {
+  clientSecret: string;
+  id: string;
+}
 
 const CartPage = () => {
   const [clientSecret, setClientSecret] = useState('');
-  const { cart, isCartEmpty } = useCart();
+  const [paymentId, setPaymentId] = useState('');
+
+  const { cart, isCartEmpty, clearCart } = useCart();
+  const router = useRouter();
+
+  const handleCancel = async () => {
+    try {
+      await cancelPaymentIntentFunc({ id: paymentId });
+      clearCart();
+      router.replace(routes.default.root);
+      toast.success('Cancelled successfully');
+    } catch (error) {
+      toast.error('Cancelled failed');
+    }
+  };
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     if (!isCartEmpty) {
       paymentIntentFunc({ items: cart })
         .then((result) => {
-          const data = result.data as { clientSecret: string };
+          const data = result.data as TPaymentIntent;
           setClientSecret(data.clientSecret);
+          setPaymentId(data.id);
         })
         .catch(() => toast.error(errorMessages.unknown));
     }
@@ -42,9 +64,10 @@ const CartPage = () => {
 
   return (
     <MainLayout>
-      {clientSecret && (
+      {clientSecret && !isCartEmpty && (
         <Elements stripe={stripePromise} options={options}>
           <CartList />
+          <button onClick={handleCancel}>Cancel payment</button>
         </Elements>
       )}
     </MainLayout>
