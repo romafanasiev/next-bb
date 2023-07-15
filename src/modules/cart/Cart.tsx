@@ -8,7 +8,7 @@ import { useCart } from 'hooks';
 
 export const Cart = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, isCartEmpty } = useCart();
 
   const modalStyles = classNames(
     'absolute flex flex-col gap-2 right-[-40px] top-[37px] w-[300px] bg-primary rounded-lg p-2 z-[100] text-center',
@@ -19,13 +19,13 @@ export const Cart = () => {
   );
 
   const handleVisibility = () => {
-    if (cart.length > 0) {
+    if (!isCartEmpty) {
       setIsVisible(true);
     }
   };
 
   useEffect(() => {
-    if (cart.length === 0) {
+    if (isCartEmpty) {
       setIsVisible(false);
     }
   }, [cart]);

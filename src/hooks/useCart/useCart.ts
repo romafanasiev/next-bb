@@ -5,6 +5,7 @@ export const useCart = () => {
   const removeFromCart = useStore.use.removeFromCart();
   const clearCart = useStore.use.clearCart();
   const cart = useStore.use.cart();
+  const isCartEmpty = cart.length === 0;
 
-  return { cart, addToCart, removeFromCart, clearCart };
+  return { cart, addToCart, removeFromCart, clearCart, isCartEmpty };
 };

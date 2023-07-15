@@ -15,5 +15,6 @@ export const errorMessages = {
   languageErr: 'Please use only English letters',
   unexpected: 'Unexpected error',
   musicKey: 'Invalid music key',
-  archiveFormat: 'Invalid archive format'
+  archiveFormat: 'Invalid archive format',
+  unknown: 'Something went wrong',
 } as const;
